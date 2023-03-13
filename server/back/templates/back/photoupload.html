@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>テストページ</title>
+    </head>
+    <body>
+        <form action="{% url 'list' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="投稿">
+        </form>
+    </body>
+</html>
