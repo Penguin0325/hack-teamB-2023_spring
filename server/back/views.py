@@ -7,10 +7,15 @@ import MySQLdb
 import datetime
 
 
-
-@csrf_protect
+# class loginDeta():
+    # @csrf_protect
 def loginDetaView(request):
     template_name="back/test.html"
+    #     if request.headers.get("Content-Type") == "loginDeta/json":
+    #         tasks = Task.object.values()
+    #         tasks_list = list(tasks)
+    #         return JsonResponse(tasks_list, safe=False, status=200)
+
 
     if request.POST:
         name = request.POST["name"]
@@ -42,33 +47,3 @@ class ImageUploadView(CreateView):
     template_name = "back/image-upload.html"
     form_class = ImageUploadForm
     success_url = "list/"
-
-# def index(request):
-#     template_name = 'back/root.html'
-#     return render(request, template_name)
-
-
-# def index(request):
-#     context = {
-#         'photos': Photo.objects.all(),
-#     }
-
-# @csrf_protect
-# def photouploadDetaView(request):
-#     if request.method == 'GET':
-#         return render(request, 'back/photoupload.html', {
-#         'form': PhotoForm(),
-#     })
-
-#     elif request.method == 'POST':
-#         form = PhotoForm(request.POST, request.FILES)
-#         if not form.is_valid():
-#             raise ValueError('invalid form')
-
-#         photo = Photo()
-#         photo.image = form.cleaned_data['image']
-#         print(photo.image)
-#         photo.save()
-    
-#         return redirect('/')
-#     # return render(request, '')
