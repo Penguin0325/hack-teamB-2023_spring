@@ -8,11 +8,6 @@ import sys
 # pip install pymysql
 # apt-get -y install default-mysql-client
 
-# pip install djangorestframework djangorestframework-jwt
-# JWT_SECRET_KEY = 'djangoのシークレットキー'
-
-# pip install pillow
-
 
 
 def main():
