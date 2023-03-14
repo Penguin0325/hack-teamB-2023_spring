@@ -7,10 +7,6 @@ import sys
 # シェルに入ったらこのコマンド打つ
 # pip install pymysql
 # apt-get -y install default-mysql-client
-# pip install djangorestframework djangorestframework-jwt
-# settings_local.py='djangoのシークレットキー追加'
-# pip install Pillow
-
 
 
 
