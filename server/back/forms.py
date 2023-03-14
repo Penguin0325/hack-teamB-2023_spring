@@ -1,0 +1,10 @@
+from django import forms
+from .models import ImageUpload
+
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = ImageUpload
+        fields = "__all__"
+
+class PhotoForm(forms.Form):
+    image = forms.ImageField()
