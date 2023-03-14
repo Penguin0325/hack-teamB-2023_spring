@@ -1,15 +1,18 @@
 from django.urls import path
 from . import views
 from django.conf.urls import url
-from .views import loginDetaView, listDetaView, ImageUploadView
+from .views import loginDetaView, listDetaView, ImageUploadView, ImgDetaView, IconListView
 from django.contrib import admin
 from django.views import View
-from rest_framework_jwt.views import obtain_jwt_token
+# from rest_framework_jwt.views import obtain_jwt_token
 
 
 urlpatterns = [
     path("",loginDetaView, name='login'),
-    path("image-upload/list/",listDetaView, name='list'),
+    path("list/",listDetaView, name='list'),
+    path("image-upload/image/",ImgDetaView,name='image'),
     path("image-upload/", ImageUploadView.as_view(), name="image-upload"),
-    path('auth/', obtain_jwt_token),
+    path("iconlist/", IconListView, name="iconlist")
+    
+    # path('auth/', obtain_jwt_token),
 ]
