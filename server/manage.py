@@ -7,6 +7,8 @@ import sys
 # シェルに入ったらこのコマンド打つ
 # pip install pymysql
 # apt-get -y install default-mysql-client
+# pip install djangorestframework djangorestframework-jwt
+# pip install pillow
 
 
 
