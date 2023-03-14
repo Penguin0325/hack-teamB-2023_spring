@@ -1,10 +1,16 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
+const App = {
+    data() {
+        return {
+            tasks: ['test'],
+        }
+    },
+    compilerOptions: {
+        delimiters: ['[[', ']]'],
+    },
+    methods: {
+    },
+    created() {
+    },
+}
 
-loadFonts()
-
-createApp(App)
-  .use(vuetify)
-  .mount('#app')
+Vue.createApp(App).mount('#app')
