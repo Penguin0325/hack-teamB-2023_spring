@@ -40,3 +40,4 @@ services:
       MYSQL_ROOT_PASSWORD: "hoge"
 volumes:
   dbdata:
+
