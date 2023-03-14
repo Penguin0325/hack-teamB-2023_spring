@@ -31,15 +31,13 @@ def loginDetaView(request):
 
     return render(request, template_name)
 
+
 def listDetaView(request):
     template_name="back/list.html"
     ctx = {}
-
     sample_users = UserModel.objects.values('id', 'name')
     print(sample_users)
-
     ctx["object_list"] = sample_users
-
     return render(request, template_name, ctx)
 
 # @csrf_protect
