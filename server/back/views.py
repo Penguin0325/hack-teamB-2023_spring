@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import CreateView
-from .models import TestModel, UserModel
+from .models import TestModel, UserModel,ImageUpload
 from .forms import ImageUploadForm
 import MySQLdb
 import datetime
@@ -44,4 +44,13 @@ def listDetaView(request):
 class ImageUploadView(CreateView):
     template_name = "back/image-upload.html"
     form_class = ImageUploadForm
-    success_url = "list/"
+    success_url = "image/"
+
+
+def ImgDetaView(request):
+    template_name="back/image.html"
+    # ctx = {}
+    # img_path = ImageUpload.objects.values('img')
+    # print(img_path)
+    # ctx["object_list"] = img_path
+    return render(request, template_name)
