@@ -54,3 +54,11 @@ def ImgDetaView(request):
     # print(img_path)
     # ctx["object_list"] = img_path
     return render(request, template_name)
+
+def IconListView(request):
+    template_name='back/iconlist.html'
+    ctx = {}
+    img_path = ImageUpload.objects.values('img')
+    print(img_path)
+    ctx["object_list"] = img_path
+    return render(request, template_name)

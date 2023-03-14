@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>テストページ</title>
+    </head>
+    <body>
+        <ul>
+            {% for obj in object_list %}
+                <li>
+                    <!-- <img src="{{ obj.img }}"> -->
+                    {{ obj.img }}
+                </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html
