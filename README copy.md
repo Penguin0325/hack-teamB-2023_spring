@@ -29,3 +29,4 @@
 
 テーブル名　icon
 カラム id int, filepass text, iconName varchar(20)
+
