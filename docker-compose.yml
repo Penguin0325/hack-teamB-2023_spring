@@ -27,10 +27,10 @@ services:
       - ./server:/var/www/html
     tty: true
   db:
-    image: mariadb:latest
-
+    image: mariadb:10.6.12
     volumes:
       -  ./dbdata:/var/lib/mysql
+      - ./init.d:/docker-entrypoint-initdb.d 
     ports:
         - "3307:3306"
     expose:
