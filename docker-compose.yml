@@ -27,7 +27,7 @@ services:
       - ./server:/var/www/html
     tty: true
   db:
-    image: mariadb:10.6.12
+    image: mariadb:latest
     volumes:
       -  ./dbdata:/var/lib/mysql
       - ./init.d:/docker-entrypoint-initdb.d 
