@@ -1,5 +1,15 @@
 # hack-teamB-2023-spring
-使用しているライブラリ
+
+### 使い方
+```
+docker compose up -d
+docker compose exec server /bin/bash
+./mahou.sh
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+```
+
+### 使用しているライブラリ
 - フロントエンド
     - vue.js
 - バックエンド

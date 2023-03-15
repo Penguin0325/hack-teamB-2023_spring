@@ -12,7 +12,7 @@ RUN apt-get update \
     && apt-get clean
 
 RUN apt-get update && \
-    apt-get -y install gcc libmariadb-dev
+  apt-get -y install gcc libmariadb-dev mariadb-client
 
 # install dependencies
 RUN pip install --upgrade pip
