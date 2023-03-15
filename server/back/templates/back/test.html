@@ -7,8 +7,11 @@
     </head>
     <body>
         <form method="POST">{% csrf_token %}
+            <label>ユーザー名</label>
             <input type="text" name="name"/>
+            <label>ログインID</label>
             <input type="text" name="loginID"/>
+            <label>パスワード</label>
             <input type="text" name="password"/>
             <button type="submit">送信</button>
         </form>

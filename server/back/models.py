@@ -1,18 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class TestModel(models.Model):
-    # """ user_dataテーブルへアクセスするためのモデル """
+# class TestModel(models.Model):
+#     # """ user_dataテーブルへアクセスするためのモデル """
  
-    # テーブル名を存在するuser_dataテーブルに変更する
-    class Meta:
-        db_table = 'drink'
+#     # テーブル名を存在するuser_dataテーブルに変更する
+#     class Meta:
+#         db_table = 'drink'
  
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=40)
+#     id = models.IntegerField(primary_key=True)
+#     name = models.CharField(max_length=40)
     
 
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
 class UserModel(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     class Meta:
         db_table = 'user'
     
@@ -24,17 +28,31 @@ class UserModel(models.Model):
     updateDate = models.DateField(auto_now=True)
     deleteDate = models.DateField()
 
+# ユーザーアカウントのモデルクラス
+class Account(models.Model):
+    # ユーザー認証のインスタンス(1vs1関係)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # 追加フィールド
+    id = models.AutoField(primary_key=True)
+    createDate = models.DateField(auto_now_add=True)
+    updateDate = models.DateField(auto_now=True)
+    deleteDate = models.DateField()
+
+    def __str__(self):
+        return self.user.username
+
 # # id int, filepath text, iconName varchar(20)
-class PhotoModel(models.Model):
-    class Meta:
-        db_table = 'icon'
-    id = models.IntegerField(primary_key=True)
-    filepath = models.TextField()
-    iconName = models.CharField(max_length=20)
+# class PhotoModel(models.Model):
+#     class Meta:
+#         db_table = 'icons'
+#     id = models.IntegerField(primary_key=True)
+#     filepath = models.TextField()
+#     iconName = models.CharField(max_length=20)
 
 class ImageUpload(models.Model):
     class Meta:
-        db_table = 'image'
+        db_table = 'images'
     title = models.CharField(max_length=100)
     img = models.ImageField(upload_to="images")#こちらの通り
 

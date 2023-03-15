@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
             'NAME': 'pengin',
-            'USER': 'pengin',
+            'USER': 'root',
             'PASSWORD': 'hoge',
             'HOST': 'db',
             'PORT': '3306',
@@ -158,3 +158,7 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
+
+LOGIN_URL = 'back:login'            # ログイン時
+LOGIN_REDIRECT_URL = 'back:image-upload'   # ログイン後
+LOGOUT_REDIRECT_URL = 'back:login'  # ログアウト後

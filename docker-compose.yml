@@ -28,9 +28,9 @@ services:
     tty: true
   db:
     image: mariadb:latest
-
     volumes:
       -  ./dbdata:/var/lib/mysql
+      -  ./initdb.d:/docker-entrypoint-initdb.d
     ports:
         - "3307:3306"
     expose:
