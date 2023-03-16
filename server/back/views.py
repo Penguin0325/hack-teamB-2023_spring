@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import TestModel, User,UserModel,ImageUpload
+from .models import UserModel,ImageUpload
 from .forms import ImageUploadForm, UserForm
 import MySQLdb
 import datetime

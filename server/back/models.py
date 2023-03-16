@@ -2,7 +2,7 @@ from django.db import models
 # from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 # from django_mysql.models import ListCharField
 # class TestModel(models.Model):
 #     # """ user_dataテーブルへアクセスするためのモデル """
@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
 class User(AbstractBaseUser):
     class Meta:
-        db_table = 'user'
+        db_table = 'users'
     
     # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
@@ -89,21 +89,21 @@ class User(AbstractBaseUser):
         return self.active
 
 # ユーザーアカウントのモデルクラス
-class Account(models.Model):
+# class Account(models.Model):
 
-    class Meta:
-        db_table = 'account'
+#     class Meta:
+#         db_table = 'account'
 
-    # ユーザー認証のインスタンス(1vs1関係)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     # ユーザー認証のインスタンス(1vs1関係)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    # 追加フィールド
-    id = models.AutoField(primary_key=True)
-    last_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
+#     # 追加フィールド
+#     id = models.AutoField(primary_key=True)
+#     last_name = models.CharField(max_length=100)
+#     first_name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
 
 # # id int, filepath text, iconName varchar(20)
 # class PhotoModel(models.Model):
@@ -122,6 +122,17 @@ class ImageUpload(models.Model):
     def __str__(self):
         return self.title
     
+class UserModel(models.Model):
+    class Meta:
+        db_table = 'user'
+    
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+    loginID = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=20)
+    createDate = models.DateField(auto_now_add=True)
+    updateDate = models.DateField(auto_now=True)
+    deleteDate = models.DateField()
 # class ImgStatus(models.Model):
 #     class Meta:
 #         db_table = 'image_status'
