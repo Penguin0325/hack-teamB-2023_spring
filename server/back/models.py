@@ -1,7 +1,7 @@
 from django.db import models
 # from django.contrib.auth.models import User
 from django.utils import timezone 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, AbstractUser
 # from django.contrib.auth.models import User
 # from django_mysql.models import ListCharField
 # class TestModel(models.Model):
@@ -13,6 +13,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
  
 #     id = models.IntegerField(primary_key=True)
 #     name = models.CharField(max_length=40)
+
+
     
 class UserManager(BaseUserManager):
     def create_user(self, loginID, password=None):

@@ -73,7 +73,8 @@ def registerDetaView(request):
             question = form.save(commit=False) #フォームを保存 ※commit=Falseでまだ保存しない
             question.user = request.user
             question.save()
-            return render(request, 'back/login.html', {})
+            print(question)
+            return render(request, 'back/home.html', {})
     
     else: #初回アクセス時…空のフォームがほしいとき
         print('ミス')
@@ -82,25 +83,49 @@ def registerDetaView(request):
     return render(request, 'back/register.html', {"user_form":form} )
     # return render(request, template_name)
 
+# def signup_view(request):
+#     if request.method == 'POST':
+
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+
+#     else:
+#         form = SignupForm()
+    
+#     param = {
+#         'form': form
+#     }
+#     return render(request, 'login_app/signup.html', param)
+
 def login_view(request):
+    print('request.method == POST')
+    print(request.method)
+    # ↑GET
     if request.method == 'POST':
+        # print(LoginForm(request, data=request.POST))
         form = LoginForm(request, data=request.POST)
-
+        print(form)
+        # form = LoginForm(request, data=request.POST)
+        print(form)
         if form.is_valid():
+            print('成功')
             user = form.get_user()
-
             if user:
                 login(request, user)
-
+            return render(request, 'back/home.html', {})
+        else:
+            print('そんな値はないです')
+            for ele in form :
+                print(ele)
     else:
+        # print(form)
+        print('あああああああああああああああああああああああ')
         form = LoginForm()
-
-    param = {
-        'form': form,
-    }
-
-    return render(request, 'back/login.html', param)
-
+    # param = {
+    #     'form': form,
+    # }
+    return render(request, 'back/login.html', {'form': form})
 
 
 # # class loginDeta():
