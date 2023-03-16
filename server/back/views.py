@@ -6,10 +6,11 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import TestModel, User,UserModel,ImageUpload
-from .forms import ImageUploadForm, UserForm
+from .models import ImageUpload,User
+from .forms import ImageUploadForm, UserForm,LoginForm
 import MySQLdb
 import datetime
+from django.contrib.auth import login
 
 from django.views.generic import TemplateView # テンプレートタグ
 # from .forms import AccountForm, AddAccountForm # ユーザーアカウントフォーム
@@ -80,6 +81,25 @@ def registerDetaView(request):
 
     return render(request, 'back/register.html', {"user_form":form} )
     # return render(request, template_name)
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+
+            if user:
+                login(request, user)
+
+    else:
+        form = LoginForm()
+
+    param = {
+        'form': form,
+    }
+
+    return render(request, 'back/login.html', param)
 
 
 
@@ -180,24 +200,46 @@ def loginDataView(request):
     if request.method == "POST":
         loginID = request.POST["loginID"]
         password = request.POST["password"]
+        print(loginID)
+        print(password)
 
+        
         user = authenticate(loginID=loginID, password=password)
         print(user)
+        use_loginId = User.objects.get(loginID=loginID)
+        use_password = User.objects.filter(password=password)
+        print(use_password)
+        print(use_loginId)
 
         print("---------------------------------------")
 
-        if user:
-            if user.is_active:
-                # ログイン
-                login(request,user)
-                # ホームページ遷移
-                return HttpResponseRedirect(reverse('home'))
-            else:
-                # アカウント利用不可
-                return HttpResponse("アカウントが有効ではありません")
-                # ユーザー認証失敗
+        if use_password.first() is None:
+            return HttpResponse("パスワードが違います")
         else:
-                return HttpResponse("ログインIDまたはパスワードが間違っています")
+            for p in use_password:
+                if p.id == use_loginId.id:
+                    # user.is_active = True;
+                    print('ログインできます')
+                    request.user.is_authenticated == True
+                    login(request, p.loginID)
+                    return HttpResponseRedirect(reverse('home'))
+
+
+
+        print("---------------------------------------")
+
+        # if user:
+        #     if user.is_active:
+        #         # ログイン
+        #         login(request,user)
+        #         # ホームページ遷移
+        #         return HttpResponseRedirect(reverse('home'))
+        #     else:
+        #         # アカウント利用不可
+        #         return HttpResponse("アカウントが有効ではありません")
+        #         # ユーザー認証失敗
+        # else:
+        #         return HttpResponse("ログインIDまたはパスワードが間違っています")
         # GET
     return render(request, template_name)
 
@@ -238,7 +280,7 @@ def home(request):
 def listDetaView(request):
     template_name="back/list.html"
     ctx = {}
-    sample_users = UserModel.objects.values('id', 'name')
+    sample_users = User.objects.values('id', 'name')
     print(sample_users)
     ctx["object_list"] = sample_users
     return render(request, template_name, ctx)

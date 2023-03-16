@@ -37,13 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',    
-    'back',
+    'django.contrib.sites',
     'rest_framework', # 追加
     'rest_framework.authtoken', # 追加
     'allauth',     
     'allauth.account',     
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    # 'back.apps.AccountsConfig',
+    'back',
     # "crispy_forms",
 ]
 

@@ -1,8 +1,8 @@
 from django import forms
 from django.db import models
-from .models import ImageUpload, Account, User,UserManager
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import AbstractBaseUser
+from .models import ImageUpload, User,UserManager
+from django.contrib.auth.forms import AuthenticationForm
+# from django.contrib.auth.models import AbstractBaseUser
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
