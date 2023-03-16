@@ -159,6 +159,8 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
 
+AUTH_USER_MODEL = 'accounts.User'
+
 LOGIN_URL = 'back:login'            # ログイン時
 LOGIN_REDIRECT_URL = 'back:image-upload'   # ログイン後
 LOGOUT_REDIRECT_URL = 'back:login'  # ログアウト後

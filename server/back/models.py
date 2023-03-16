@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+# from django.contrib.auth.models import User
+from django.utils import timezone 
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # class TestModel(models.Model):
 #     # """ user_dataテーブルへアクセスするためのモデル """
  
@@ -11,12 +12,40 @@ from django.contrib.auth.models import User
 #     id = models.IntegerField(primary_key=True)
 #     name = models.CharField(max_length=40)
     
+class UserManager(BaseUserManager):
+    def create_user(self, loguinID, password=None):
+        if not loguinID:
+            raise ValueError('Users must have an loginID address')
+
+        user = self.model(
+            email=self.normalize_email(loguinID),
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_staffuser(self, loguinID, password):
+        user = self.create_user(
+            loguinID,
+            password=password,
+        )
+        user.staff = True
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, loguinID, password):
+        user = self.create_user(
+            loguinID,
+            password=password,
+        )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
 
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
-class UserModel(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+class User(models.Model):
     class Meta:
         db_table = 'user'
     
@@ -27,17 +56,47 @@ class UserModel(models.Model):
     createDate = models.DateField(auto_now_add=True)
     updateDate = models.DateField(auto_now=True)
     deleteDate = models.DateField()
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False) 
+    admin = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'loginID'
+    objects = UserManager()
+
+    def __str__(self):             
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        return self.admin
+
+    def has_module_perms(self, app_label):
+        return self.admin
+
+    @property
+    def is_staff(self):
+        return self.staff
+
+    @property
+    def is_admin(self):
+        return self.admin
+
+    @property
+    def is_active(self):
+        return self.active
 
 # ユーザーアカウントのモデルクラス
 class Account(models.Model):
+
+    class Meta:
+        db_table = 'account'
+
     # ユーザー認証のインスタンス(1vs1関係)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # 追加フィールド
     id = models.AutoField(primary_key=True)
-    createDate = models.DateField(auto_now_add=True)
-    updateDate = models.DateField(auto_now=True)
-    deleteDate = models.DateField()
+    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.user.username

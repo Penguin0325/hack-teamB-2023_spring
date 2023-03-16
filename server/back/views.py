@@ -1,36 +1,76 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 # from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import CreateView
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import UserModel
+# from .models import UserModel, Account
 from .forms import ImageUploadForm
 import MySQLdb
 import datetime
+
+from django.views.generic import TemplateView # テンプレートタグ
+from .forms import AccountForm, AddAccountForm # ユーザーアカウントフォーム
+
+
+class  AccountRegistration(TemplateView):
+    def __init__(self):
+        self.params = {
+        "AccountCreate":False,
+        "account_form": AccountForm(),
+        "add_account_form":AddAccountForm(),
+        }
+
+    # Get処理
+    def get(self,request):
+        self.params["account_form"] = AccountForm()
+        self.params["add_account_form"] = AddAccountForm()
+        self.params["AccountCreate"] = False
+        return render(request,"back/register.html",context=self.params)
+
+    # Post処理
+    def post(self,request):
+        self.params["account_form"] = AccountForm(data=request.POST)
+        self.params["add_account_form"] = AddAccountForm(data=request.POST)
+
+        # フォーム入力の有効検証
+        if self.params["account_form"].is_valid() and self.params["add_account_form"].is_valid():
+            # アカウント情報をDB保存
+            account = self.params["account_form"].save()
+            # パスワードをハッシュ化
+            account.set_password(account.password)
+            # ハッシュ化パスワード更新
+            account.save()
+
+            # 下記追加情報
+            # 下記操作のため、コミットなし
+            add_account = self.params["add_account_form"].save(commit=False)
+            # AccountForm & AddAccountForm 1vs1 紐付け
+            add_account.user = account
+
+            # モデル保存
+            add_account.save()
+
+            # アカウント作成情報更新
+            self.params["AccountCreate"] = True
+
+        else:
+            # フォームが有効でない場合
+            print(self.params["account_form"].errors)
+
+        return render(request,"back/register.html",context=self.params)
 
 
 # class loginDeta():
     # @csrf_protect
 def signupDetaView(request):
-    template_name="back/test.html"
-    #     if request.headers.get("Content-Type") == "loginDeta/json":
-    #         tasks = Task.object.values()
-    #         tasks_list = list(tasks)
-    #         return JsonResponse(tasks_list, safe=False, status=200)
-
+    template_name="back/register.html"
 
     if request.method == "POST":
-        # form = UserCreationForm(request.POST)
-        # if form.is_valid():
-        #     new_user = form.save()
-        #     print(new_user)
-
-
 
         name = request.POST["name"]
         loginID = request.POST["loginID"]
@@ -53,10 +93,10 @@ def signupDetaView(request):
 def loginDataView(request):
     template_name='back/login.html'
     if request.method == "POST":
-        loginID = request.POST["loginID"]
+        userID = request.POST["userid"]
         password = request.POST["password"]
 
-        user = authenticate(loginID=loginID, password=password)
+        user = authenticate(username=userID, password=password)
         print(user)
 
         print("---------------------------------------")
@@ -66,7 +106,7 @@ def loginDataView(request):
                 # ログイン
                 login(request,user)
                 # ホームページ遷移
-                return HttpResponseRedirect(reverse('image-upload'))
+                return HttpResponseRedirect(reverse('home'))
             else:
                 # アカウント利用不可
                 return HttpResponse("アカウントが有効ではありません")
@@ -94,6 +134,68 @@ def loginDataView(request):
         
     
     # return render(request, template_name)
+
+#ログアウト
+@login_required
+def Logout(request):
+    logout(request)
+    # ログイン画面遷移
+    return HttpResponseRedirect(reverse('Login'))
+
+#ホーム
+@login_required
+def home(request):
+    params = {"UserID":request.user,}
+    return render(request, "back/home.html",context=params)
+
+
+#新規登録
+class  AccountRegistration(TemplateView):
+
+    def __init__(self):
+        self.params = {
+        "AccountCreate":False,
+        "account_form": AccountForm(),
+        "add_account_form":AddAccountForm(),
+        }
+
+    #Get処理
+    def get(self,request):
+        self.params["account_form"] = AccountForm()
+        self.params["add_account_form"] = AddAccountForm()
+        self.params["AccountCreate"] = False
+        return render(request,"back/register.html",context=self.params)
+
+    #Post処理
+    def post(self,request):
+        self.params["account_form"] = AccountForm(data=request.POST)
+        self.params["add_account_form"] = AddAccountForm(data=request.POST)
+
+        #フォーム入力の有効検証
+        if self.params["account_form"].is_valid() and self.params["add_account_form"].is_valid():
+            # アカウント情報をDB保存
+            account = self.params["account_form"].save()
+            account.save()
+
+            # 下記追加情報
+            # 下記操作のため、コミットなし
+            add_account = self.params["add_account_form"].save(commit=False)
+            # AccountForm & AddAccountForm 1vs1 紐付け
+            add_account.user = account
+
+            # モデル保存
+            add_account.save()
+
+            # アカウント作成情報更新
+            self.params["AccountCreate"] = True
+
+        else:
+            # フォームが有効でない場合
+            print(self.params["account_form"].errors)
+
+        return render(request,"back/register.html",context=self.params)
+
+
 
 def listDetaView(request):
     template_name="back/list.html"
