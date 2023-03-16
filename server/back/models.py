@@ -2,6 +2,8 @@ from django.db import models
 # from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import User
+# from django_mysql.models import ListCharField
 # class TestModel(models.Model):
 #     # """ user_dataテーブルへアクセスするためのモデル """
  
@@ -13,30 +15,30 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 #     name = models.CharField(max_length=40)
     
 class UserManager(BaseUserManager):
-    def create_user(self, loguinID, password=None):
-        if not loguinID:
+    def create_user(self, loginID, password=None):
+        if not loginID:
             raise ValueError('Users must have an loginID address')
 
         user = self.model(
-            email=self.normalize_email(loguinID),
+            loginID=self.normalize_email(loginID),
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, loguinID, password):
+    def create_staffuser(self, loginID, password):
         user = self.create_user(
-            loguinID,
+            loginID,
             password=password,
         )
         user.staff = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, loguinID, password):
+    def create_superuser(self, loginID, password):
         user = self.create_user(
-            loguinID,
+            loginID,
             password=password,
         )
         user.staff = True
@@ -45,20 +47,22 @@ class UserManager(BaseUserManager):
         return user
 
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
-class User(models.Model):
+class User(AbstractBaseUser):
     class Meta:
         db_table = 'user'
     
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     loginID = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=20)
+    # password = models.CharField(max_length=20)
     createDate = models.DateField(auto_now_add=True)
-    updateDate = models.DateField(auto_now=True)
-    deleteDate = models.DateField()
+    # updateDate = models.DateField(auto_now=True)
+    # deleteDate = models.DateField()
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) 
     admin = models.BooleanField(default=False)
+    # towns = ListCharField(
+    #     models.CharField(max_length=10),size=6, max_length=(6 * 11))
 
     USERNAME_FIELD = 'loginID'
     objects = UserManager()
@@ -117,6 +121,12 @@ class ImageUpload(models.Model):
 
     def __str__(self):
         return self.title
+    
+# class ImgStatus(models.Model):
+#     class Meta:
+#         db_table = 'image_status'
+#     id = models.IntegerField()
+
 
 
 # class Photo(models.Model):
