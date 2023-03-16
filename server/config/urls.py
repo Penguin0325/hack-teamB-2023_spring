@@ -28,6 +28,7 @@ app_name = "back"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('back/', include('back.urls')),
+    path('accounts/', include('allauth.urls')),
     # path("", views.index, name="index"),
     # path("login/", auth_views.LoginView.as_view(template_name="app/login.html"), name="login"),
     # path("logout/", auth_views.LogoutView.as_view(), name="logout"),

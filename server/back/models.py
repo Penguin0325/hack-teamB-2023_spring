@@ -49,15 +49,11 @@ class UserManager(BaseUserManager):
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
 class User(AbstractBaseUser):
     class Meta:
-        db_table = 'users'
+        db_table = 'userScertification'
     
-    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     loginID = models.CharField(max_length=20, unique=True)
-    # password = models.CharField(max_length=20)
     createDate = models.DateField(auto_now_add=True)
-    # updateDate = models.DateField(auto_now=True)
-    # deleteDate = models.DateField()
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) 
     admin = models.BooleanField(default=False)
@@ -68,7 +64,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     def __str__(self):             
-        return self.email
+        return self.loginID
 
     def has_perm(self, perm, obj=None):
         return self.admin
@@ -122,17 +118,17 @@ class ImageUpload(models.Model):
     def __str__(self):
         return self.title
     
-class UserModel(models.Model):
-    class Meta:
-        db_table = 'user'
+# class UserModel(models.Model):
+#     class Meta:
+#         db_table = 'user'
     
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    loginID = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=20)
-    createDate = models.DateField(auto_now_add=True)
-    updateDate = models.DateField(auto_now=True)
-    deleteDate = models.DateField()
+#     id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=20)
+#     loginID = models.CharField(max_length=20, unique=True)
+#     password = models.CharField(max_length=20)
+#     createDate = models.DateField(auto_now_add=True)
+#     updateDate = models.DateField(auto_now=True)
+#     deleteDate = models.DateField()
 # class ImgStatus(models.Model):
 #     class Meta:
 #         db_table = 'image_status'
