@@ -20,6 +20,5 @@ RUN pip install django-allauth
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-
 # add app
 COPY . .

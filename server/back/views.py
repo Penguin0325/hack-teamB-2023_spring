@@ -3,14 +3,11 @@ from django.views.decorators.csrf import csrf_protect
 # from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import CreateView
-
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
-# from .models import UserModel, Account
+from .models import TestModel, User,UserModel,ImageUpload
 from .forms import ImageUploadForm, UserForm
-from .models import User
 import MySQLdb
 import datetime
 
@@ -204,6 +201,7 @@ def loginDataView(request):
         # GET
     return render(request, template_name)
 
+
         # use_loginId = UserModel.objects.get(loginID=loginID)
         # use_password = UserModel.objects.filter(password=password)
         # print(use_password)
@@ -237,67 +235,34 @@ def home(request):
     return render(request, "back/home.html",context=params)
 
 
-#新規登録
-# class  AccountRegistration(TemplateView):
-
-#     def __init__(self):
-#         self.params = {
-#         "AccountCreate":False,
-#         "account_form": AccountForm(),
-#         "add_account_form":AddAccountForm(),
-#         }
-
-#     #Get処理
-#     def get(self,request):
-#         self.params["account_form"] = AccountForm()
-#         self.params["add_account_form"] = AddAccountForm()
-#         self.params["AccountCreate"] = False
-#         return render(request,"back/register.html",context=self.params)
-
-#     #Post処理
-#     def post(self,request):
-#         self.params["account_form"] = AccountForm(data=request.POST)
-#         self.params["add_account_form"] = AddAccountForm(data=request.POST)
-
-#         #フォーム入力の有効検証
-#         if self.params["account_form"].is_valid() and self.params["add_account_form"].is_valid():
-#             # アカウント情報をDB保存
-#             account = self.params["account_form"].save()
-#             account.save()
-
-#             # 下記追加情報
-#             # 下記操作のため、コミットなし
-#             add_account = self.params["add_account_form"].save(commit=False)
-#             # AccountForm & AddAccountForm 1vs1 紐付け
-#             add_account.user = account
-
-#             # モデル保存
-#             add_account.save()
-
-#             # アカウント作成情報更新
-#             self.params["AccountCreate"] = True
-
-#         else:
-#             # フォームが有効でない場合
-#             print(self.params["account_form"].errors)
-
-#         return render(request,"back/register.html",context=self.params)
-
-
-
 def listDetaView(request):
     template_name="back/list.html"
-    # ctx = {}
+    ctx = {}
+    sample_users = UserModel.objects.values('id', 'name')
+    print(sample_users)
+    ctx["object_list"] = sample_users
+    return render(request, template_name, ctx)
 
-    # sample_users = UserModel.objects.values('id', 'name')
-    # print(sample_users)
-
-    # ctx["object_list"] = sample_users
-
-    return render(request, template_name)
 
 # @csrf_protect
 class ImageUploadView(CreateView):
     template_name = "back/image-upload.html"
     form_class = ImageUploadForm
-    success_url = "list/"
+    success_url = "image/"
+
+
+def ImgDetaView(request):
+    template_name="back/image.html"
+    # ctx = {}
+    # img_path = ImageUpload.objects.values('img')
+    # print(img_path)
+    # ctx["object_list"] = img_path
+    return render(request, template_name)
+
+def IconListView(request):
+    template_name='back/iconlist.html'
+    ctx = {}
+    img_path = ImageUpload.objects.values('img')
+    print(img_path)
+    ctx["object_list"] = img_path
+    return render(request, template_name)

@@ -1,14 +1,13 @@
 # hack-teamB-2023-spring
 
-### 使い方 
-
+### 使い方
 ```
-docker-compose up -d
-docker-compose exec server /bin/bash
+docker compose up -d
+docker compose exec server /bin/bash
 ./mahou.sh
 python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
 ```
-
 
 ### 使用しているライブラリ
 - フロントエンド
@@ -32,6 +31,7 @@ python manage.py migrate
 カラム id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
 
 ### アイコン
+
 |項目	|データ型	| 説明|
 |---|---|---|
 |ファイルパス|||
