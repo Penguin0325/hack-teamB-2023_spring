@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User
+from .models import User, ImageUpload, UserManager
 # from .models import Account
 # admin.site.register(Account)
 

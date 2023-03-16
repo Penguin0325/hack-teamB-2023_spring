@@ -83,20 +83,6 @@ def registerDetaView(request):
     return render(request, 'back/register.html', {"user_form":form} )
     # return render(request, template_name)
 
-# def signup_view(request):
-#     if request.method == 'POST':
-
-#         form = SignupForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-
-#     else:
-#         form = SignupForm()
-    
-#     param = {
-#         'form': form
-#     }
-#     return render(request, 'login_app/signup.html', param)
 
 def login_view(request):
     print('request.method == POST')
@@ -127,95 +113,10 @@ def login_view(request):
     # }
     return render(request, 'back/login.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return render(request, 'back/logout.html')
 
-# # class loginDeta():
-#     # @csrf_protect
-# class registerDetaView(TemplateView):
-#     # template_name="back/register.html"
-#     def __init__(self):
-#         self.params = {
-#         "UserCreate":False,
-#         "user_form":UserForm(),
-#         }
-
-#     def get(self,request):
-#         print("helo")
-#         self.params["user_form"] = UserForm()
-#         self.params["UserCreate"] = False
-
-#         print('あああああああああああああああ')
-#         print(request)
-#         # self.params["account_form"] = UserForm(data=request.POST)
-
-#         # # #フォーム入力の有効検証
-#         # if self.params["user_form"].is_valid():
-#         #     # アカウント情報をDB保存
-#         #     account = self.params["user_form"].save()
-#         #     account.save()
-#         #     # アカウント作成情報更新
-#         #     self.params["UserCreate"] = True
-#         #     print('保存できたよ')
-
-#         # else:
-#         #     # フォームが有効でない場合
-#         #     print(self.params["user_form"].errors)
-#         #     # print(self.params["user_form"])
-#         #     print('エラーです')
-#         #     return redirect('back/register.html')
-        
-#         return render(request,"back/register.html",context=self.params)
-#         # return render(request,"back/register.html")
-
-#         # return HttpResponse('hello')
-#     #Post処理
-#     def post(self,request):
-#         print('あああああああああああああああ')
-#         print(request.POST["name"])
-#         print(request)
-#         # self.params["account_form"] = UserForm(data=request.POST)
-
-#         # #フォーム入力の有効検証
-#         if self.params["user_form"].is_valid().is_valid():
-#             # アカウント情報をDB保存
-#             account = self.params["user_form"].save()
-#             account.save()
-
-#             # アカウント作成情報更新
-#             self.params["UserCreate"] = True
-
-#         else:
-#             # フォームが有効でない場合
-#             print(self.params["user_form"].errors)
-
-#         return render(request,"back/register.html",context=self.params)
-    
-
-    # if request.method == "POST":
-
-    #     form = UserForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #     else:
-    #         form = UserForm()
-    #     param = {
-    #         'form':form
-    #     }
-        # name = request.POST["name"]
-        # loginID = request.POST["loginID"]
-        # password = request.POST["password"]
-        
-        # d_today = datetime.date.today()
-        # print(d_today)
-        # user = User.objects.create_user('username', 'foo@example.com', 'password')
-
-        # print("---------------------------------------")
-        # obj=User(name='sika', loginID='sikasann', password='sikasann', createDate=d_today, last_login=d_today)
-        # print(obj)
-        # obj.save()
-        # print("---------------------------------------")
-    # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
-    # return render(request, template_name, param)
-        
 
 
 # ログインフォームから送信されてきたユーザーの情報で認証
@@ -287,13 +188,6 @@ def loginDataView(request):
         
     
     # return render(request, template_name)
-
-#ログアウト
-@login_required
-def Logout(request):
-    logout(request)
-    # ログイン画面遷移
-    return HttpResponseRedirect(reverse('Login'))
 
 #ホーム
 @login_required
