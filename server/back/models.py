@@ -1,45 +1,132 @@
 from django.db import models
-
-class TestModel(models.Model):
-    # """ user_dataテーブルへアクセスするためのモデル """
+# from django.contrib.auth.models import User
+from django.utils import timezone 
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import User
+# from django_mysql.models import ListCharField
+# class TestModel(models.Model):
+#     # """ user_dataテーブルへアクセスするためのモデル """
  
-    # テーブル名を存在するuser_dataテーブルに変更する
-    class Meta:
-        db_table = 'drink'
+#     # テーブル名を存在するuser_dataテーブルに変更する
+#     class Meta:
+#         db_table = 'drink'
  
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=40)
+#     id = models.IntegerField(primary_key=True)
+#     name = models.CharField(max_length=40)
     
+class UserManager(BaseUserManager):
+    def create_user(self, loginID, password=None):
+        if not loginID:
+            raise ValueError('Users must have an loginID address')
+
+        user = self.model(
+            loginID=self.normalize_email(loginID),
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_staffuser(self, loginID, password):
+        user = self.create_user(
+            loginID,
+            password=password,
+        )
+        user.staff = True
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, loginID, password):
+        user = self.create_user(
+            loginID,
+            password=password,
+        )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
 
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
-class UserModel(models.Model):
+class User(AbstractBaseUser):
     class Meta:
         db_table = 'user'
     
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     loginID = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=20)
+    # password = models.CharField(max_length=20)
     createDate = models.DateField(auto_now_add=True)
-    updateDate = models.DateField(auto_now=True)
-    deleteDate = models.DateField()
+    # updateDate = models.DateField(auto_now=True)
+    # deleteDate = models.DateField()
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False) 
+    admin = models.BooleanField(default=False)
+    # towns = ListCharField(
+    #     models.CharField(max_length=10),size=6, max_length=(6 * 11))
+
+    USERNAME_FIELD = 'loginID'
+    objects = UserManager()
+
+    def __str__(self):             
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        return self.admin
+
+    def has_module_perms(self, app_label):
+        return self.admin
+
+    @property
+    def is_staff(self):
+        return self.staff
+
+    @property
+    def is_admin(self):
+        return self.admin
+
+    @property
+    def is_active(self):
+        return self.active
+
+# ユーザーアカウントのモデルクラス
+class Account(models.Model):
+
+    class Meta:
+        db_table = 'account'
+
+    # ユーザー認証のインスタンス(1vs1関係)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # 追加フィールド
+    id = models.AutoField(primary_key=True)
+    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user.username
 
 # # id int, filepath text, iconName varchar(20)
-class PhotoModel(models.Model):
-    class Meta:
-        db_table = 'icon'
-    id = models.IntegerField(primary_key=True)
-    filepath = models.TextField()
-    iconName = models.CharField(max_length=20)
+# class PhotoModel(models.Model):
+#     class Meta:
+#         db_table = 'icons'
+#     id = models.IntegerField(primary_key=True)
+#     filepath = models.TextField()
+#     iconName = models.CharField(max_length=20)
 
 class ImageUpload(models.Model):
     class Meta:
-        db_table = 'image'
+        db_table = 'images'
     title = models.CharField(max_length=100)
     img = models.ImageField(upload_to="images")#こちらの通り
 
     def __str__(self):
         return self.title
+    
+# class ImgStatus(models.Model):
+#     class Meta:
+#         db_table = 'image_status'
+#     id = models.IntegerField()
+
 
 
 # class Photo(models.Model):

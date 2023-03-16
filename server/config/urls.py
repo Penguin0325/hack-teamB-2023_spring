@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
 # from . import views
 
 from django.conf import settings
@@ -22,9 +24,14 @@ from django.conf.urls.static import static
 
 # from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
+app_name = "back"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('back/', include('back.urls')),
+    # path("", views.index, name="index"),
+    # path("login/", auth_views.LoginView.as_view(template_name="app/login.html"), name="login"),
+    # path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    # path('', include('App_Folder.urls')),
 ]
 
 if settings.DEBUG:

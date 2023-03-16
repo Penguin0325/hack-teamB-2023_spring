@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>テストページ</title>
+    </head>
+    <body>
+        <div class="reg">
+            <h2>ログイン</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <table class="reg_form">
+                <tr>
+                <td><label for="userid">ログインID:</label></td>
+                <td><input type="text" name="loginID"></td>
+                <td><label for="password">パスワード：</label></td>
+                <td><input type="password" name="password"></td>
+                </tr>
+                </table>
+
+                <input type="submit" class="btn" value="Login">
+            </form>
+        </div>
+            <p class="message">アカウントをお持ちですか？：
+            <a href="{% url 'register' %}">アカウントを作成</a>
+            </p>
+    </body>
+</html>

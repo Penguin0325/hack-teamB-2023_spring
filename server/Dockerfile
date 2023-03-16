@@ -12,13 +12,13 @@ RUN apt-get update \
     && apt-get clean
 
 RUN apt-get update && \
-  apt-get -y install gcc libmariadb-dev mariadb-client
+    apt-get -y install gcc libmariadb-dev mariadb-client
 
 # install dependencies
 RUN pip install --upgrade pip
+RUN pip install django-allauth
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
-
 
 # add app
 COPY . .
