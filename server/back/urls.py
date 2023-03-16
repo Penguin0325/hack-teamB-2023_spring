@@ -8,11 +8,11 @@ from django.views import View
 
 
 urlpatterns = [
-    path("",loginDetaView, name='login'),
-    path("list/",listDetaView, name='list'),
-    path("image-upload/image/",ImgDetaView,name='image'),
+    path("", loginDetaView, name='login'),
+    path("list/", listDetaView, name='list'),
+    path("image-upload/images/", ImgDetaView, name='image'),
     path("image-upload/", ImageUploadView.as_view(), name="image-upload"),
     path("iconlist/", IconListView, name="iconlist")
-    
+
     # path('auth/', obtain_jwt_token),
 ]
