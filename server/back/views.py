@@ -66,6 +66,9 @@ from django.views.generic import TemplateView  # テンプレートタグ
 
 #         return render(request,"back/register.html",context=self.params)
 
+def logout_view(request):
+    return render(request, 'back/logout.html')
+
 
 def registerDetaView(request):
     template_name = "back/register.html"
@@ -185,16 +188,16 @@ def listDetaView(request):
 class ImageUploadView(CreateView):
     template_name = "back/image-upload.html"
     form_class = ImageUploadForm
-    success_url = "images/"
+    success_url = "image/"
 
 
 def ImgDetaView(request):
-    template_name = "back/image.html"
+    # template_name = "image-upload/image"
     # ctx = {}
     # img_path = ImageUpload.objects.values('img')
     # print(img_path)
     # ctx["object_list"] = img_path
-    return render(request, template_name)
+    return render(request, 'back/image.html')
 
 
 def IconListView(request):
