@@ -10,10 +10,5 @@
       <button type="submit">送信</button>
     </form>
 
-    {% if request.user.is_authenticated %}
-    <div>ログインできてる</div>
-    {% else %}
-    <div>できてない</div>
-    {% endif %}
   </body>
 </html>
