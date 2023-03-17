@@ -2,7 +2,7 @@ from django import forms
 from django.db import models
 from .models import ImageUpload, User, UserManager
 from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.forms import UserCreationForm
 
 
 class ImageUploadForm(forms.ModelForm):
@@ -15,8 +15,16 @@ class PhotoForm(forms.Form):
     image = forms.ImageField()
 
 
+# class SignupForm(UserCreationForm):
+#     class Meta:
+#         model = User
+#         fields = ['loginID', 'password']
+
+
 class LoginForm(AuthenticationForm):
-    pass
+    print("formです")
+    fields = {'loginID','password'}
+    labels = {'loginID':"ログインID",'password':"パスワード"}
 
 
 class UserForm(forms.ModelForm):
@@ -27,6 +35,8 @@ class UserForm(forms.ModelForm):
         fields = {'name', 'loginID', 'password'}
         labels = {'username': "ユーザーネーム",
                   'loginID': "ログインID", 'password': "パスワード"}
+
+
 
 # フォームクラス作成
 # class AccountForm(forms.ModelForm):

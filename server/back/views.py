@@ -77,122 +77,41 @@ def registerDetaView(request):
             question = form.save(commit=False)  # フォームを保存 ※commit=Falseでまだ保存しない
             question.user = request.user
             question.save()
-            return render(request, 'back/login.html', {})
 
-    else:  # 初回アクセス時…空のフォームがほしいとき
-        print('ミス')
+            return render(request, 'back/home.html', {})
+    
+    else: #初回アクセス時…空のフォームがほしいとき
+
         form = UserForm()
 
     return render(request, 'back/register.html', {"user_form": form})
-    # return render(request, template_name)
-
 
 def login_view(request):
+    print('request.method == POST')
+    print(request.method)
+    # ↑GET
     if request.method == 'POST':
+        # print(LoginForm(request, data=request.POST))
         form = LoginForm(request, data=request.POST)
-
+        print(form)
+        # form = LoginForm(request, data=request.POST)
+        print(form)
         if form.is_valid():
+            print('成功')
             user = form.get_user()
-
             if user:
                 login(request, user)
-
+            return render(request, 'back/home.html', {})
+        else:
+            print('そんな値はないです')
+            for ele in form :
+                print(ele)
     else:
+
         form = LoginForm()
 
-    param = {
-        'form': form,
-    }
+    return render(request, 'back/login.html', {'form': form})
 
-    return render(request, 'back/login.html', param)
-
-
-# # class loginDeta():
-#     # @csrf_protect
-# class registerDetaView(TemplateView):
-#     # template_name="back/register.html"
-#     def __init__(self):
-#         self.params = {
-#         "UserCreate":False,
-#         "user_form":UserForm(),
-#         }
-
-#     def get(self,request):
-#         print("helo")
-#         self.params["user_form"] = UserForm()
-#         self.params["UserCreate"] = False
-
-#         print('あああああああああああああああ')
-#         print(request)
-#         # self.params["account_form"] = UserForm(data=request.POST)
-
-#         # # #フォーム入力の有効検証
-#         # if self.params["user_form"].is_valid():
-#         #     # アカウント情報をDB保存
-#         #     account = self.params["user_form"].save()
-#         #     account.save()
-#         #     # アカウント作成情報更新
-#         #     self.params["UserCreate"] = True
-#         #     print('保存できたよ')
-
-#         # else:
-#         #     # フォームが有効でない場合
-#         #     print(self.params["user_form"].errors)
-#         #     # print(self.params["user_form"])
-#         #     print('エラーです')
-#         #     return redirect('back/register.html')
-
-#         return render(request,"back/register.html",context=self.params)
-#         # return render(request,"back/register.html")
-
-#         # return HttpResponse('hello')
-#     #Post処理
-#     def post(self,request):
-#         print('あああああああああああああああ')
-#         print(request.POST["name"])
-#         print(request)
-#         # self.params["account_form"] = UserForm(data=request.POST)
-
-#         # #フォーム入力の有効検証
-#         if self.params["user_form"].is_valid().is_valid():
-#             # アカウント情報をDB保存
-#             account = self.params["user_form"].save()
-#             account.save()
-
-#             # アカウント作成情報更新
-#             self.params["UserCreate"] = True
-
-#         else:
-#             # フォームが有効でない場合
-#             print(self.params["user_form"].errors)
-
-#         return render(request,"back/register.html",context=self.params)
-
-    # if request.method == "POST":
-
-    #     form = UserForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #     else:
-    #         form = UserForm()
-    #     param = {
-    #         'form':form
-    #     }
-    # name = request.POST["name"]
-    # loginID = request.POST["loginID"]
-    # password = request.POST["password"]
-
-    # d_today = datetime.date.today()
-    # print(d_today)
-    # user = User.objects.create_user('username', 'foo@example.com', 'password')
-
-    # print("---------------------------------------")
-    # obj=User(name='sika', loginID='sikasann', password='sikasann', createDate=d_today, last_login=d_today)
-    # print(obj)
-    # obj.save()
-    # print("---------------------------------------")
-    # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
-    # return render(request, template_name, param)
 
 
 # ログインフォームから送信されてきたユーザーの情報で認証
@@ -227,36 +146,10 @@ def loginDataView(request):
 
         print("---------------------------------------")
 
-        # if user:
-        #     if user.is_active:
-        #         # ログイン
-        #         login(request,user)
-        #         # ホームページ遷移
-        #         return HttpResponseRedirect(reverse('home'))
-        #     else:
-        #         # アカウント利用不可
-        #         return HttpResponse("アカウントが有効ではありません")
-        #         # ユーザー認証失敗
-        # else:
-        #         return HttpResponse("ログインIDまたはパスワードが間違っています")
-        # GET
+        
     return render(request, template_name)
 
-    # use_loginId = UserModel.objects.get(loginID=loginID)
-    # use_password = UserModel.objects.filter(password=password)
-    # print(use_password)
-
-    # if use_password.first() is None:
-    #     print("パスワードが違います")
-    # else:
-    #     for p in use_password:
-    #         if p.id == use_loginId.id:
-    #             print('ログインできます')
-    #             request.user.is_authenticated == True
-    #             login(request, p.name)
-    #             return redirect("app:index")
-
-    # return render(request, template_name)
+   
 
 # ログアウト
 

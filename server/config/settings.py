@@ -167,8 +167,8 @@ JWT_AUTH = {
 AUTH_USER_MODEL = 'back.User'
 
 # LOGIN_URL = 'back:login'            # ログイン時
-LOGIN_REDIRECT_URL = 'back:image-upload'   # ログイン後
-LOGOUT_REDIRECT_URL = 'back:login'  # ログアウト後
+LOGIN_REDIRECT_URL = 'home'   # ログイン後
+LOGOUT_REDIRECT_URL = '/login'  # ログアウト後
 ACCOUNT_LOGOUT_ON_GET = True
 
 AUTHENTICATION_BACKENDS = [
