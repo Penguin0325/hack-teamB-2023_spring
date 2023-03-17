@@ -1,21 +1,22 @@
 from django.db import models
 # from django.contrib.auth.models import User
+
 from django.utils import timezone 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, AbstractUser
+
 # from django.contrib.auth.models import User
 # from django_mysql.models import ListCharField
 # class TestModel(models.Model):
 #     # """ user_dataテーブルへアクセスするためのモデル """
- 
+
 #     # テーブル名を存在するuser_dataテーブルに変更する
 #     class Meta:
 #         db_table = 'drink'
- 
+
 #     id = models.IntegerField(primary_key=True)
 #     name = models.CharField(max_length=40)
 
 
-    
 class UserManager(BaseUserManager):
     def create_user(self, loginID, password=None):
         if not loginID:
@@ -49,23 +50,26 @@ class UserManager(BaseUserManager):
         return user
 
 # id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date
+
+
 class User(AbstractBaseUser):
     class Meta:
         db_table = 'userScertification'
-    
+
     name = models.CharField(max_length=20)
     loginID = models.CharField(max_length=20, unique=True)
     createDate = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False) 
+    staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
+
     # towns = ListCharField(
     #     models.CharField(max_length=10),size=6, max_length=(6 * 11))
 
     USERNAME_FIELD = 'loginID'
     objects = UserManager()
 
-    def __str__(self):             
+    def __str__(self):
         return self.loginID
 
     def has_perm(self, perm, obj=None):
@@ -111,19 +115,43 @@ class User(AbstractBaseUser):
 #     filepath = models.TextField()
 #     iconName = models.CharField(max_length=20)
 
+
 class ImageUpload(models.Model):
     class Meta:
         db_table = 'images'
     title = models.CharField(max_length=100)
-    img = models.ImageField(upload_to="images")#こちらの通り
+    img = models.ImageField(upload_to="images")  # こちらの通り
 
     def __str__(self):
         return self.title
-    
+
+
+class Post(models.Model):
+    images_id = models.ForeignKey("User", on_delete=models.CASCADE)
+
+
+# class ImagesModel(models.Model):
+#     class Meta:
+#         db_table = 'images'
+#     title = models.CharField(max_length=100)
+#     img = models.ImageField(upload_to="images")
+
+
+class UserPostList(models.Model):
+    posts = models.ForeignKey("Post", on_delete=models.CASCADE)
+    images = models.ForeignKey("ImageUpload", on_delete=models.CASCADE)
+
+
+# class Book(models.Model):
+#     title = models.CharField(max_length=100)
+#     price = models.IntegerField()
+#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+#     stores = models.ManyToManyField("Store")
+
 # class UserModel(models.Model):
 #     class Meta:
 #         db_table = 'user'
-    
+
 #     id = models.AutoField(primary_key=True)
 #     name = models.CharField(max_length=20)
 #     loginID = models.CharField(max_length=20, unique=True)
@@ -137,9 +165,7 @@ class ImageUpload(models.Model):
 #     id = models.IntegerField()
 
 
-
 # class Photo(models.Model):
 #     class Meta:
 #         db_table = 'photo'
 #     image = models.ImageField(upload_to='images/', verbose_name="画像", )
-

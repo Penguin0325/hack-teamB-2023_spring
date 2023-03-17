@@ -1,20 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>テストページ</title>
-    </head>
-    <body>
-        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">送信</button>
-        </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">送信</button>
+    </form>
 
-        {% if request.user.is_authenticated %}
-            <div>ログインできてる</div>
-        {% else %}
-            <div>できてない</div>
-        {% endif %}
-    </body>
+    {% if request.user.is_authenticated %}
+    <div>ログインできてる</div>
+    {% else %}
+    <div>できてない</div>
+    {% endif %}
+  </body>
 </html>

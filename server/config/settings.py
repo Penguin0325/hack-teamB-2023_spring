@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from .settings_local import *
 import datetime
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'rest_framework', # 追加
-    'rest_framework.authtoken', # 追加
-    'allauth',     
-    'allauth.account',     
+    'rest_framework',  # 追加
+    'rest_framework.authtoken',  # 追加
+    'allauth',
+    'allauth.account',
     'allauth.socialaccount',
     # 'back.apps.AccountsConfig',
     'back',
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # 追加
+    'corsheaders.middleware.CorsMiddleware',  # 追加
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,18 +86,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'pengin',
-            'USER': 'root',
-            'PASSWORD': 'hoge',
-            'HOST': 'db',
-            'PORT': '3306',
-            'OPTIONS': {
+        'NAME': 'pengin',
+        'USER': 'root',
+        'PASSWORD': 'hoge',
+        'HOST': 'db',
+        'PORT': '3306',
+        'OPTIONS': {
                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                    },
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+        },
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': BASE_DIR / 'db.sqlite3',
     }
-    
+
 }
 
 
@@ -138,8 +138,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media_local"
+MEDIA_URL = '/media_local/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_local')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -171,15 +171,15 @@ LOGIN_REDIRECT_URL = 'home'   # ログイン後
 LOGOUT_REDIRECT_URL = '/login'  # ログアウト後
 ACCOUNT_LOGOUT_ON_GET = True
 
-AUTHENTICATION_BACKENDS = [ 
-    'django.contrib.auth.backends.ModelBackend',     
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-] 
+]
 
 SITE_ID = 2
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False 
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'loginID'
 ACCOUNT_LOGINID_REQUIRED = True
 APPEND_SLASH = False

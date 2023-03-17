@@ -29,7 +29,7 @@ services:
   db:
     image: mariadb:latest
     volumes:
-      -  ./dbdata:/var/lib/mysql
+      -  dbdata:/var/lib/mysql
       - ./init.d:/docker-entrypoint-initdb.d 
     ports:
         - "3307:3306"

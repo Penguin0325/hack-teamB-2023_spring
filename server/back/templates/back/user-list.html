@@ -6,13 +6,14 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <title>テストページ</title>
   </head>
   <body>
     <table class="table table-striped">
@@ -20,14 +21,22 @@
         <th>名前</th>
         <th>ステータス</th>
       </tr>
-      {% for obj in object_list %}
+      {% for user in user_inf %}
       <tr>
-        <td>{{ obj.name }}</td>
-        <td>{{ obj.id }}</td>
+        <td>{{user.posts.images_id}}</td>
+        <td>
+          {% for user in user_inf %}
+          <img
+            src="/media_local/{{user.images.img}}"
+            width="150"
+            height="100"
+            class="rounded-circle"
+          />
+          {% endfor %}
+        </td>
       </tr>
       {% endfor %}
     </table>
-    <a href="{% url 'image-upload' %}">画像の登録</a>
     <!-- <a href="{% url 'image-upload' %}">画像登録</a> -->
   </body>
   <script

@@ -1,34 +1,40 @@
 from django import forms
 from django.db import models
-from .models import ImageUpload, User,UserManager
+from .models import ImageUpload, User, UserManager
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = ImageUpload
         fields = "__all__"
 
+
 class PhotoForm(forms.Form):
     image = forms.ImageField()
+
 
 # class SignupForm(UserCreationForm):
 #     class Meta:
 #         model = User
 #         fields = ['loginID', 'password']
 
+
 class LoginForm(AuthenticationForm):
     print("formです")
     fields = {'loginID','password'}
     labels = {'loginID':"ログインID",'password':"パスワード"}
+
 
 class UserForm(forms.ModelForm):
     class Meta():
         model = User
         print(model)
         # fields = "__all__"
-        fields = {'name','loginID','password'}
-        labels = {'username':"ユーザーネーム",'loginID':"ログインID",'password':"パスワード"}
+        fields = {'name', 'loginID', 'password'}
+        labels = {'username': "ユーザーネーム",
+                  'loginID': "ログインID", 'password': "パスワード"}
 
 
 
@@ -53,7 +59,7 @@ class UserForm(forms.ModelForm):
 #         labels = {'id':'id','last_name':"苗字",'first_name':"名前",}
 
 #         # fields = ('id','createDate')
-#         # labels = {'id':"id",'createDate':"作成日"} 
+#         # labels = {'id':"id",'createDate':"作成日"}
 
 # fields = ('last_name','first_name','account_image',)
 # labels = {'last_name':"苗字",'first_name':"名前",'account_image':"写真アップロード",}

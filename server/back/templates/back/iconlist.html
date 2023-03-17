@@ -1,18 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>テストページ</title>
-    </head>
-    <body>
-        <ul>
-            {% for obj in object_list %}
-                <li>
-                    <!-- <img src="{{ obj.img }}"> -->
-                    {{ obj.img }}
-                </li>
-            {% endfor %}
-        </ul>
-    </body>
-</html
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>テストページ</title>
+  </head>
+  <body>
+    {% for obj in object_list %}
+    <div class="check">
+      <input type="checkbox" checked id="{{obj.id}}" name="" value="" />
+      <label for="{{obj.id}}" class="label">
+        <img
+          src="/media_local/{{obj.img}}"
+          width="100"
+          height="50"
+          class="border_radius"
+        />
+      </label>
+    </div>
+    {% endfor %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+
+  <style>
+    .border_radius {
+      border-radius: 20px;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+    }
+  </style>
+</html>
