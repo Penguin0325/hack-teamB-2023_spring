@@ -37,10 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
-    'back',
+    'django.contrib.sites',
     'rest_framework',  # 追加
     'rest_framework.authtoken',  # 追加
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # 'back.apps.AccountsConfig',
+    'back',
+    # "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -82,7 +87,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pengin',
-        'USER': 'pengin',
+        'USER': 'root',
         'PASSWORD': 'hoge',
         'HOST': 'db',
         'PORT': '3306',
@@ -158,3 +163,25 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
+
+AUTH_USER_MODEL = 'back.User'
+
+# LOGIN_URL = 'back:login'            # ログイン時
+LOGIN_REDIRECT_URL = 'back:image-upload'   # ログイン後
+LOGOUT_REDIRECT_URL = 'back:login'  # ログアウト後
+ACCOUNT_LOGOUT_ON_GET = True
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 2
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'loginID'
+ACCOUNT_LOGINID_REQUIRED = True
+APPEND_SLASH = False
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'

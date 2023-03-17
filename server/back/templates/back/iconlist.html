@@ -6,27 +6,19 @@
     <title>テストページ</title>
   </head>
   <body>
-    <table>
-      <tr>
-        <th>名前</th>
-        <th>ステータス</th>
-      </tr>
-      <tr>
-        <td>aaaaaaßßå</td>
-        <td>
-          <div class="text-center">
-            {% for obj in object_list %}
-            <img
-              src="/media_local/{{obj.img}}"
-              width="100"
-              height="50"
-              class="border_radius"
-            />
-            {% endfor %}
-          </div>
-        </td>
-      </tr>
-    </table>
+    {% for obj in object_list %}
+    <div class="check">
+      <input type="checkbox" checked id="{{obj.id}}" name="" value="" />
+      <label for="{{obj.id}}" class="label">
+        <img
+          src="/media_local/{{obj.img}}"
+          width="100"
+          height="50"
+          class="border_radius"
+        />
+      </label>
+    </div>
+    {% endfor %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
