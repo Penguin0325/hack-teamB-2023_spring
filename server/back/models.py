@@ -56,7 +56,7 @@ class User(AbstractBaseUser):
     class Meta:
         db_table = 'userScertification'
 
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=500)
     loginID = models.CharField(max_length=20, unique=True)
     createDate = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True)

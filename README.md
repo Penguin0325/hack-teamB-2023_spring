@@ -7,6 +7,7 @@ docker compose exec server /bin/bash
 ./mahou.sh
 python manage.py migrate
 python manage.py runserver 0.0.0.0:8000
+http://localhost:8000/
 ```
 
 ### 使用しているライブラリ
@@ -26,6 +27,7 @@ python manage.py runserver 0.0.0.0:8000
 |作成日	|DATE|	レコード挿入日を入れる。|
 |更新日	|DATE|	レコード更新日を入れる。|
 |削除日	|DATE|	ここに日付が入っているレコードは論理削除されたとみなす。|
+<!-- 日本語文字化け→SET character_set_results=utf8mb4; -->
 
 テーブル名　user
 カラム id int, name varchar(20), loginID varchar(20) unique, password varchar(20), createDate date, updateDate date, deleteDate date

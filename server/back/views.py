@@ -78,7 +78,9 @@ def registerDetaView(request):
         if form.is_valid():  # フォームの値が正しい時
             print('成功')
             question = form.save(commit=False)  # フォームを保存 ※commit=Falseでまだ保存しない
-            question.user = request.user
+            # question.user = request.user
+            # question = User(loginID = form.changed_data["loginID"])
+            question.set_password(form.cleaned_data["password"])
             question.save()
 
             return render(request, 'back/home.html', {})
@@ -168,7 +170,7 @@ def Logout(request):
 
 @login_required
 def home(request):
-    params = {"UserID": request.user, }
+    params = {"name": request.user, }
     return render(request, "back/home.html", context=params)
 
 

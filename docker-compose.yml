@@ -27,7 +27,9 @@ services:
       - ./server:/var/www/html
     tty: true
   db:
-    image: mariadb:latest
+    # image: mariadb:latest
+    build: ./docker/mariadb
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       -  dbdata:/var/lib/mysql
       - ./init.d:/docker-entrypoint-initdb.d 
