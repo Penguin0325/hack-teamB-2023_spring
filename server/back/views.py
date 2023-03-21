@@ -170,7 +170,7 @@ def Logout(request):
 
 @login_required
 def home(request):
-    params = {"UserID": request.user, }
+    params = {"name": request.user, }
     return render(request, "back/home.html", context=params)
 
 
