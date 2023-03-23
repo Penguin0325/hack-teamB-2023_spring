@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 # from django.contrib.auth.models import User
 
@@ -90,32 +91,6 @@ class User(AbstractBaseUser):
     def is_active(self):
         return self.active
 
-# ユーザーアカウントのモデルクラス
-# class Account(models.Model):
-
-#     class Meta:
-#         db_table = 'account'
-
-#     # ユーザー認証のインスタンス(1vs1関係)
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-#     # 追加フィールド
-#     id = models.AutoField(primary_key=True)
-#     last_name = models.CharField(max_length=100)
-#     first_name = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.user.username
-
-# # id int, filepath text, iconName varchar(20)
-# class PhotoModel(models.Model):
-#     class Meta:
-#         db_table = 'icons'
-#     id = models.IntegerField(primary_key=True)
-#     filepath = models.TextField()
-#     iconName = models.CharField(max_length=20)
-
-
 class ImageUpload(models.Model):
     class Meta:
         db_table = 'images'
@@ -140,6 +115,25 @@ class Post(models.Model):
 class UserPostList(models.Model):
     posts = models.ForeignKey("Post", on_delete=models.CASCADE)
     images = models.ForeignKey("ImageUpload", on_delete=models.CASCADE)
+
+class RoomModels(models.Model):
+    class Meta:
+        db_table = 'rooms'
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    roomname = models.CharField(max_length=100)
+    created_date = models.DateTimeField(default=timezone.now)
+
+class MessageModels(models.Model):
+    class Meta:
+        db_table = 'messages'
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    room = models.ForeignKey(
+        RoomModels, blank=True, null=True, 
+        related_name='room_message', on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=50)
+    contest = models.TextField()
+    create_date = models.DateTimeField(default=timezone.now)
 
 
 # class Book(models.Model):

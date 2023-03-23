@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import ImageUpload
+from .models import ImageUpload, RoomModels,MessageModels
 from .models import UserPostList
 from .models import Post
 # from .models import Account
@@ -35,5 +35,8 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('loginID', 'password1', 'password2')}
-         ),
+        ),
     )
+
+admin.site.register(RoomModels)
+admin.site.register(MessageModels)
