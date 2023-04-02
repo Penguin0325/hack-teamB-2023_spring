@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>   
+    <body>
+        <p>新規作成<a href="{% url 'back:room' %}">こちら</a></p>
+        {% for obj in object_list %}
+        <tr>
+            <!-- <div>あああ</div> -->
+            <td>{{obj.roomname}}<a href="{% url 'back:message' obj.id %}">こちら</a></td>
+            <!-- <td>{{ obj.roomname }}{{obj.id}}<a>こちら</a></td> -->
+        </tr>
+        {% endfor %}
+    </body>
+</html>

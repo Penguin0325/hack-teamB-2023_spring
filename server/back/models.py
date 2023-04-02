@@ -119,19 +119,21 @@ class UserPostList(models.Model):
 class RoomModels(models.Model):
     class Meta:
         db_table = 'rooms'
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True,default=uuid.uuid4,editable=False)
     roomname = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(default=timezone.now)
+    updated_datetime = models.DateTimeField(auto_now=True)
 
 class MessageModels(models.Model):
     class Meta:
         db_table = 'messages'
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     room = models.ForeignKey(
-        RoomModels, blank=True, null=True, 
-        related_name='room_message', on_delete=models.CASCADE
+        RoomModels, null=True, on_delete=models.CASCADE
     )
-    name = models.CharField(max_length=50)
     contest = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
 

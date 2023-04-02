@@ -6,7 +6,7 @@
         <title>テストページ</title>
     </head>
     <body>
-        <form action="{% url 'list' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <form action="{% url 'back:list' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {% csrf_token %}
             {{ form }}
             <input type="submit" value="投稿">
