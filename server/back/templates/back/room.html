@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>   
+    <body>
+        <form action="{% url 'back:room' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <p><input type="submit" value="送信"></p>
+        </form>
+        {% if user.is_authenticated %}
+        <p>
+            <a>新規投稿</a>
+        </p>
+        {% endif %}
+    </body>
+</html>

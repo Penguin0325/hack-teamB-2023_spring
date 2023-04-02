@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
-from .models import ImageUpload, User, UserManager
+# from .models import ImageUpload, User, UserManager, RoomModels
+from .models import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 
@@ -34,8 +35,18 @@ class UserForm(forms.ModelForm):
         # fields = "__all__"
         fields = {'name', 'loginID', 'password'}
         labels = {'username': "ユーザーネーム",
-                  'loginID': "ログインID", 'password': "パスワード"}
+                'loginID': "ログインID", 'password': "パスワード"}
 
+class RoomForm(forms.ModelForm):
+    class Meta():
+        model = RoomModels
+        fields = {'roomname'}
+        labels = {'roomname':"ルーム名"}
+
+class MessageForm(forms.ModelForm):
+    class Meta():
+        model = MessageModels
+        fields = {'contest'}
 
 
 # フォームクラス作成

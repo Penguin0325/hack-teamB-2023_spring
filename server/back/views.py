@@ -7,64 +7,14 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import ImageUpload, User, UserPostList
-from .forms import ImageUploadForm, UserForm, LoginForm
+from .models import ImageUpload, User, UserPostList, RoomModels, MessageModels
+from .forms import ImageUploadForm, UserForm, LoginForm,RoomForm,MessageForm
 import MySQLdb
 import datetime
 from django.contrib.auth import login
 
 from django.views.generic import TemplateView  # テンプレートタグ
-# from .forms import AccountForm, AddAccountForm # ユーザーアカウントフォーム
 
-# class loginDeta():
-# @csrf_protect
-
-# class  AccountRegistration(TemplateView):
-#     def __init__(self):
-#         self.params = {
-#         "AccountCreate":False,
-#         "account_form": AccountForm(),
-#         "add_account_form":AddAccountForm(),
-#         }
-
-#     # Get処理
-#     def get(self,request):
-#         self.params["account_form"] = AccountForm()
-#         self.params["add_account_form"] = AddAccountForm()
-#         self.params["AccountCreate"] = False
-#         return render(request,"back/register.html",context=self.params)
-
-#     # Post処理
-#     def post(self,request):
-#         self.params["account_form"] = AccountForm(data=request.POST)
-#         self.params["add_account_form"] = AddAccountForm(data=request.POST)
-
-#         # フォーム入力の有効検証
-#         if self.params["account_form"].is_valid() and self.params["add_account_form"].is_valid():
-#             # アカウント情報をDB保存
-#             account = self.params["account_form"].save()
-#             # パスワードをハッシュ化
-#             account.set_password(account.password)
-#             # ハッシュ化パスワード更新
-#             account.save()
-
-#             # 下記追加情報
-#             # 下記操作のため、コミットなし
-#             add_account = self.params["add_account_form"].save(commit=False)
-#             # AccountForm & AddAccountForm 1vs1 紐付け
-#             add_account.user = account
-
-#             # モデル保存
-#             add_account.save()
-
-#             # アカウント作成情報更新
-#             self.params["AccountCreate"] = True
-
-#         else:
-#             # フォームが有効でない場合
-#             print(self.params["account_form"].errors)
-
-#         return render(request,"back/register.html",context=self.params)
 
 def logout_view(request):
     return render(request, 'back/logout.html')
@@ -83,7 +33,7 @@ def registerDetaView(request):
             question.set_password(form.cleaned_data["password"])
             question.save()
 
-            return render(request, 'back/home.html', {})
+            return render(request, 'back/login.html', {})
     
     else: #初回アクセス時…空のフォームがほしいとき
 
@@ -116,8 +66,6 @@ def login_view(request):
         form = LoginForm()
 
     return render(request, 'back/login.html', {'form': form})
-
-
 
 # ログインフォームから送信されてきたユーザーの情報で認証
 # 認証 OK の場合にそのユーザーの状態をログイン状態に設定する
@@ -154,24 +102,105 @@ def loginDataView(request):
         
     return render(request, template_name)
 
-   
-
 # ログアウト
-
-
 @login_required
 def Logout(request):
     logout(request)
     # ログイン画面遷移
-    return HttpResponseRedirect(reverse('Login'))
+    return HttpResponseRedirect(reverse('back:Login'))
 
 # ホーム
-
-
 @login_required
 def home(request):
     params = {"name": request.user, }
     return render(request, "back/home.html", context=params)
+
+@login_required
+def roomView(request):
+    template_name = "back/room.html"
+    form = RoomForm(data=request.POST)
+    print(form)
+    # if request.POST:
+    if form.is_valid():
+        print('あああああああああああああ')
+        #DBに登録する準備を行う
+        thread = form.save(commit=False)
+        #threadにログイン中ユーザー情報を追加
+        thread.user = request.user
+        #DBに登録
+        thread.save()
+        return HttpResponseRedirect(reverse('back:roomlist'))
+
+    return render(request, template_name, {"form": form})
+
+@login_required
+def roomListView(request):
+    template_name = "back/roomlist.html"
+    form = RoomForm()
+    print(form)
+    ctx = {}
+    qs = RoomModels.objects.values('id','roomname')
+    ctx["object_list"] = qs
+    return render(request, template_name, ctx)
+
+def messageView(request, thread_id):
+    template_name = "back/message.html"
+
+    threads = RoomModels.objects.filter(pk=thread_id).values()
+    thread  = threads[0]
+    username_dicts = User.objects.filter(pk=threads[0]['user_id']).values('name')
+    thread.update(username_dicts[0])
+    #該当する掲示板に紐づくコメントを取得
+    comments = MessageModels.objects.filter(room_id=thread_id).values()
+    count = len(comments)
+    #コメントのユーザーIDからユーザー名を取得してオブジェクトに追加
+    for count in range(count):
+        username_dicts = User.objects.filter(pk=comments[count]['user_id']).values('name')
+        comments[count].update(username_dicts[0])
+    #フォーム作成
+    form = MessageForm
+    context = {
+        'thread': thread,
+        'comments': comments,
+        'form': form,
+    }
+    return render(request, template_name, context)
+
+def messageAddView(request):
+    template_name = 'back:message'
+    
+    thread_id_tmp = request.POST['thread_id']
+    print("------form----------------")
+    test = thread_id_tmp.isdecimal()
+    print(test)
+    thread_id = int(thread_id_tmp)
+    print(type(thread_id))
+    form = MessageForm(data=request.POST)
+    print(form)
+    print("-----is_valid-----------------")
+    print(form.is_valid())
+    
+    if form.is_valid():
+        print('あああああああああああああ')
+        comment = form.save(commit=False)
+        # #threadにログイン中ユーザー情報e
+        comment.user = request.user
+        print(comment.user)
+        # int(thread_id)
+        comment.room_id = thread_id
+        print("----------------------")
+        print(comment.room_id)
+        print(type(comment.room_id))
+        print(comment.room)
+        print(comment.contest)
+        print(comment.create_date)
+        print("----------------------")
+        #DBに登録
+        comment.save()
+        print('comment.save()')
+    return redirect(template_name, thread_id=thread_id)
+    
+    # return render(request, template_name)
 
 
 def listDetaView(request):

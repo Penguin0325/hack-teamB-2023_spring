@@ -1,13 +1,14 @@
 from django.urls import path
 from . import views
 from django.conf.urls import url
-from .views import UserStatusView, loginDataView, listDetaView, ImageUploadView, ImgDetaView, IconListView, registerDetaView,login_view,logout_view
- 
+# from .views import UserStatusView, loginDataView, listDetaView, ImageUploadView, ImgDetaView, IconListView, registerDetaView,login_view,logout_view
+from .views import *
 
 from django.contrib import admin
 from django.views import View
 # from rest_framework_jwt.views import obtain_jwt_token
 
+app_name = "back"
 urlpatterns = [
 
     # path('signup/', views.signup_view, name='signup'),
@@ -21,7 +22,10 @@ urlpatterns = [
     path("iconlist/", IconListView, name="iconlist"),
 
     path("home/",views.home,name="home"),
+    path("roomlist/",roomListView, name="roomlist"),
+    path("room/",roomView, name="room"),
+    path("message/<int:thread_id>/",messageView,name="message"),
+    path("message_add/",messageAddView,name="message_add"),
     
-
     # path('auth/', obtain_jwt_token),
 ]

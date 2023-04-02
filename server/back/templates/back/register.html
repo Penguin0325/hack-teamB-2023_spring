@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>ユーザー登録</h1>
-        <form action="{% url 'register' %}" method="post">
+        <form action="{% url 'back:register' %}" method="post">
             {% csrf_token %}
                 {{ user_form.as_p }}
             <p><input type="submit" value="登録"></p>
