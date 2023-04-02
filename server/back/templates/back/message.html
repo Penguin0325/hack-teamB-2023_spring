@@ -1,56 +1,48 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends "base.html" %}
+{% block title %}コメント{% endblock %}
+{% block content %}
+<tr>
+    <td>{{ thread.name }}</td>
+</tr>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-
-<body>
+<table class="comment_container">
     <tr>
-        <td>{{ thread.name }}</td>
+        <td>{{ thread.user }}</td>
+        <td>{{ thread.created_date }}</td>
     </tr>
+    <tr>
+        <td>{{ thread.roomname }}</td>
+    </tr>
+    <!-- <tr>
+                <td>{{ thread.content | linebreaks | urlize }}</td>
+            </tr> -->
+</table>
 
+{% for comment in comments %}
+<table class="comment_container">
+    <tr>
+        <td>{{ comment.name }}</td>
+        <td>{{ comment.create_date }}</td>
+    </tr>
+    <tr>
+        <td>{{ comment.contest | linebreaks | urlize }}</td>
+    </tr>
+</table>
+{% endfor %}
+
+<form method="post" action="{% url 'back:message_add' %}">{% csrf_token %}
+    <!-- <input type="hidden" value="{{ thread.id }}" name="thread_id"> -->
+    <input value="{{ thread.id }}" name="thread_id">
     <table class="comment_container">
         <tr>
-            <td>{{ thread.user }}</td>
-            <td>{{ thread.created_date }}</td>
+            <td class="comment_username">{{ user.name }}</td>
         </tr>
         <tr>
-            <td>{{ thread.roomname }}</td>
-        </tr>
-        <!-- <tr>
-                    <td>{{ thread.content | linebreaks | urlize }}</td>
-                </tr> -->
-    </table>
-
-    {% for comment in comments %}
-    <table class="comment_container">
-        <tr>
-            <td>{{ comment.name }}</td>
-            <td>{{ comment.create_date }}</td>
+            <td>{{ form.contest }}</td>
         </tr>
         <tr>
-            <td>{{ comment.contest | linebreaks | urlize }}</td>
+            <td><button type="submit" class="positive_button">create</button></td>
         </tr>
     </table>
-    {% endfor %}
-
-    <form method="post" action="{% url 'back:message_add' %}">{% csrf_token %}
-        <!-- <input type="hidden" value="{{ thread.id }}" name="thread_id"> -->
-        <input value="{{ thread.id }}" name="thread_id">
-        <table class="comment_container">
-            <tr>
-                <td class="comment_username">{{ user.name }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.contest }}</td>
-            </tr>
-            <tr>
-                <td><button type="submit" class="positive_button">create</button></td>
-            </tr>
-        </table>
-    </form>
-</body>
-
-</html>
+</form>
+{% endblock %}

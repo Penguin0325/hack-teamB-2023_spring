@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ja" dir="ltr">
-    <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href='{% static "App_Folder_css/css/style.css" %}'/>
-
-    </head>
-    <body>
-        <h1>
-            <font color="red">{{ name }}</font>さんようこそ！！
-        </h1>
-        <p> ページは<a href="{% url 'back:list' %}">こちら</a></p>
-        <p> ログアウトは<a href="{% url 'back:logout' %}">こちら</a></p>
-        {% if request.user.is_authenticated %}
-        <p>ログイン</p>
-        <p>スレッド一覧は<a href="{% url 'back:roomlist' %}">こちら</a></p>
-        {% endif %}
-    </body>
-</html>
+{% extends "base.html" %}
+{% block title %}ホーム{% endblock %}
+{% block content %}
+<body>
+    <h1>
+        <font color="red">{{ name }}</font>さんようこそ！！
+    </h1>
+    <p> ページは<a href="{% url 'back:list' %}">こちら</a></p>
+    <p> ログアウトは<a href="{% url 'back:logout' %}">こちら</a></p>
+    {% if request.user.is_authenticated %}
+    <p>ログイン</p>
+    <p>スレッド一覧は<a href="{% url 'back:roomlist' %}">こちら</a></p>
+    {% endif %}
+</body>
+{% endblock %}
+    
