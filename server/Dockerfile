@@ -19,6 +19,7 @@ RUN pip install --upgrade pip
 RUN pip install django-allauth
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+RUN pip install django-widget-tweaks
 
 # add app
 COPY . .

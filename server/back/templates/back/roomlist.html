@@ -1,11 +1,28 @@
 {% extends "base.html" %}
 {% block title %}スレッド作成{% endblock %}
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'back:list' %}">ユーザー一覧</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'back:roomlist' %}">スレッド一覧</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'back:logout' %}">ログアウト</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <p>新規作成<a href="{% url 'back:room' %}">こちら</a></p>
     {% for obj in object_list %}
     <tr>
         <!-- <div>あああ</div> -->
-        <td>{{obj.roomname}}<a href="{% url 'back:message' obj.id %}">こちら</a></td>
+        <td><a href="{% url 'back:message' obj.id %}">{{obj.roomname}}</a></td>
         <!-- <td>{{ obj.roomname }}{{obj.id}}<a>こちら</a></td> -->
     </tr>
     {% endfor %}

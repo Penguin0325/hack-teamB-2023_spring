@@ -26,6 +26,8 @@ urlpatterns = [
     path("room/",roomView, name="room"),
     path("message/<int:thread_id>/",messageView,name="message"),
     path("message_add/",messageAddView,name="message_add"),
+
+    path("root/", rootView)
     
     # path('auth/', obtain_jwt_token),
 ]

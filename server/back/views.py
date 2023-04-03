@@ -15,6 +15,8 @@ from django.contrib.auth import login
 
 from django.views.generic import TemplateView  # テンプレートタグ
 
+def rootView(request):
+    return render(request, 'back/root.html')
 
 def logout_view(request):
     return render(request, 'back/logout.html')
