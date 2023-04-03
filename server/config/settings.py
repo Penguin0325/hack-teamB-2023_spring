@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from .settings_local import *
 import datetime
 import os
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'pengin.pythonanywhere.com']
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECRET_KEY = get_random_secret_key()  
 
 # Application definition
 
@@ -190,3 +193,8 @@ ACCOUNT_LOGINID_REQUIRED = True
 APPEND_SLASH = False
 
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+try:
+    from .settings_local import *
+except:
+    pass
