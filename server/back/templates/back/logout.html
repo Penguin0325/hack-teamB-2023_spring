@@ -1,12 +1,6 @@
-{% load static %}
-<!doctype html>
-<html lang="ja">
-<head>
-    <meta charset="utf-8">
-    <title>ログアウト</title>
-</head>
-<body>
-    <p>ログアウトしました...</p>
-</body>
-
-</html>
+{% extends "base.html" %}
+{% block title %}ログアウト{% endblock %}
+{% block content %}
+<p>ログアウトしました...</p>
+<p>ログインは<a href="{% url 'back:login' %}">こちら</a></p>
+{% endblock %}

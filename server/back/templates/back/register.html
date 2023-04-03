@@ -1,15 +1,10 @@
-<!doctype html>
-<html lang="ja">
-<head>
-    <meta charset="utf-8">
-    <title>ユーザー登録</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}ログイン{% endblock %}
+{% block content %}
     <h1>ユーザー登録</h1>
         <form action="{% url 'back:register' %}" method="post">
             {% csrf_token %}
                 {{ user_form.as_p }}
             <p><input type="submit" value="登録"></p>
         </form>
-</body>
-</html>
+{% endblock %}
