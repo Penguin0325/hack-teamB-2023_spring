@@ -26,8 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = [
-    '*',
-    '.vercel.app'
+    '.up.railway.app'
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -94,6 +93,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
     # 'default': {
     #     'ENGINE': 'django_psdb_engine',
     #     'NAME': os.environ.get('DB_NAME'),
