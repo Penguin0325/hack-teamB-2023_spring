@@ -1,6 +1,6 @@
 echo "BUILD START"
 yum update
-yum clean
+yum clean all
 yum install -y libpq-dev gcc
 yum -y install gcc libmariadb-dev mariadb-client
 pip install -r requirements.txt
