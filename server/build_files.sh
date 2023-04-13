@@ -1,4 +1,5 @@
 echo "BUILD START"
+cat /etc/*-release
 apt update
 apt-get update 
 apt-get clean 
