@@ -1,4 +1,5 @@
 echo "BUILD START"
+apt update
 apt-get update 
 apt-get clean 
 apt-get install -y libpq-dev gcc
