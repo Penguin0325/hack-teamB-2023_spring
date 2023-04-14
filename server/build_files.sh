@@ -1,8 +1,7 @@
 echo "BUILD START"
 yum update
 yum clean all
-yum install -y libpq-dev gccs
-yum -y install gcc libmariadb-dev mariadb-client
+yum install mysql-community-client -y
 pip install -r requirements.txt
 pip install --upgrade pip
 pip install django-allauth
