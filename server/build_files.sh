@@ -1,6 +1,7 @@
 echo "BUILD START"
 yum update
 yum clean all
+python -m pip install --upgrade pip
 yum install MariaDB-server galera-4 MariaDB-client MariaDB-shared MariaDB-backup MariaDB-common git python3 python3-virtualenv make gcc gettext
 pip install -r requirements.txt
 pip install --upgrade pip
