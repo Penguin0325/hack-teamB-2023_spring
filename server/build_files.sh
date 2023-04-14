@@ -1,6 +1,7 @@
 echo "BUILD START"
 yum update
 yum clean all
+pip install mysqlclient
 pip install -r requirements.txt
 pip install --upgrade pip
 pip install django-allauth
