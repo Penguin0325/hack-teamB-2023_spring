@@ -21,10 +21,19 @@
         <th>ステータス</th>
       </tr>
       {% for obj in object_list %}
-      <tr>
-        <td>{{ obj.name }}</td>
-        <td>{{ obj.id }}</td>
-      </tr>
+        {% if obj.id == request.user.id %}
+          {% if obj.id == request.user.id %}
+          {% else %}
+          {% endif %}
+          <tr>
+            <td>{{ obj.name }}</td>
+          </tr>
+          <td><a href="{% url 'back:iconlist' %}">画像の選択</a></td>
+        {% else %}
+          <tr>
+            <td>{{ obj.name }}</td>
+          </tr>
+        {% endif %}
       {% endfor %}
     </table>
     <a href="{% url 'back:image-upload' %}">画像の登録</a>

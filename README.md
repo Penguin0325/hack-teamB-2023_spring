@@ -5,7 +5,7 @@
 docker compose up -d
 docker compose exec server /bin/bash
 ./mahou.sh
-python manage.py migrate
+python manage.py migrate(python manage.py makemigrations)
 python manage.py runserver 0.0.0.0:8000
 http://localhost:8000/
 ```

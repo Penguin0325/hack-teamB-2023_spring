@@ -99,7 +99,12 @@ class ImageUpload(models.Model):
 
     def __str__(self):
         return self.title
-
+    
+class ImageConnectModels(models.Model):
+    class Meta:
+        db_table = 'imagesconnnect'
+    user = models.IntegerField()
+    icon = models.IntegerField()
 
 class Post(models.Model):
     images_id = models.ForeignKey("User", on_delete=models.CASCADE)

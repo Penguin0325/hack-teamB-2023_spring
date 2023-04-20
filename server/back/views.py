@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import ImageUpload, User, UserPostList, RoomModels, MessageModels
-from .forms import ImageUploadForm, UserForm, LoginForm,RoomForm,MessageForm
+from .forms import ImageUploadForm, UserForm, LoginForm,RoomForm,MessageForm, ImageChoiseForm
 import MySQLdb
 import datetime
 from django.contrib.auth import login
@@ -98,9 +98,7 @@ def loginDataView(request):
                     request.user.is_authenticated == True
                     login(request, p.loginID)
                     return HttpResponseRedirect(reverse('home'))
-
         print("---------------------------------------")
-
         
     return render(request, template_name)
 
@@ -124,7 +122,6 @@ def roomView(request):
     print(form)
     # if request.POST:
     if form.is_valid():
-        print('あああああああああああああ')
         #DBに登録する準備を行う
         thread = form.save(commit=False)
         #threadにログイン中ユーザー情報を追加
@@ -183,7 +180,6 @@ def messageAddView(request):
     print(form.is_valid())
     
     if form.is_valid():
-        print('あああああああああああああ')
         comment = form.save(commit=False)
         # #threadにログイン中ユーザー情報e
         comment.user = request.user
@@ -211,10 +207,7 @@ def listDetaView(request):
     sample_users = User.objects.values('id', 'name')
     print(sample_users)
     ctx["object_list"] = sample_users
-
     return render(request, template_name, ctx)
-
-
 # @csrf_protect
 
 
@@ -236,9 +229,26 @@ def ImgDetaView(request):
 def IconListView(request):
     template_name = 'back/iconlist.html'
     ctx = {}
-    img_path = ImageUpload.objects.values('title', 'img')
-    print(img_path)
+    img_path = ImageUpload.objects.values('id','title','img')
+    person_count = ImageUpload.objects.count()
+    # print(ImageUpload.objects.get(id=1))
+    print('aaaaaaaaaaaa')
+    # print(img_path.values('title'))
     ctx["object_list"] = img_path
+    user_id = request.user.id
+    range(person_count)
+    # for val in range(person_count):
+    print(request.method)
+    if request.method == 'POST':
+        # print(request.POST.get('パチンコ'))
+        my_checkbox_value = request.POST.getlist("option")
+        if my_checkbox_value:
+            print(my_checkbox_value)
+            print('取れたよ')
+        else:
+            print(my_checkbox_value)
+            print('取れなかったよ')
+
     return render(request, template_name, ctx)
 
 

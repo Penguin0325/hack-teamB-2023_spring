@@ -11,16 +11,8 @@ class ImageUploadForm(forms.ModelForm):
         model = ImageUpload
         fields = "__all__"
 
-
 class PhotoForm(forms.Form):
     image = forms.ImageField()
-
-
-# class SignupForm(UserCreationForm):
-#     class Meta:
-#         model = User
-#         fields = ['loginID', 'password']
-
 
 class LoginForm(AuthenticationForm):
     print("formです")
@@ -47,6 +39,16 @@ class MessageForm(forms.ModelForm):
     class Meta():
         model = MessageModels
         fields = {'contest'}
+
+class ImageConnectForm(forms.ModelForm):
+    class Meta():
+        models = ImageConnectModels
+        fields = "__all__"
+
+class ImageChoiseForm(forms.ModelForm):
+    class Meta():
+        models = ImageUpload
+        fields = forms.BooleanField(widget=forms.CheckboxInput)
 
 
 # フォームクラス作成
