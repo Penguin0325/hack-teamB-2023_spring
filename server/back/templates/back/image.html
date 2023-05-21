@@ -1,14 +1,8 @@
-<!doctype html>
-<html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>テストページ</title>
-    </head>
-    <body>
+{% extends "base.html" %}
+{% block title %}ログアウト{% endblock %}
+{% block content %}
         <div>
             保存完了！
         </div>
         <a href="{% url 'back:list' %}">リスト一覧に戻る</a>
-    </body>
-</html
+{% endblock %}

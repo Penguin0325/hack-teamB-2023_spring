@@ -20,6 +20,7 @@ RUN apt-get update && \
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install django-allauth
+RUN pip install whitenoise
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 RUN pip install django-widget-tweaks

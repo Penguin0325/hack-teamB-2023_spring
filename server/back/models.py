@@ -94,12 +94,22 @@ class User(AbstractBaseUser):
 class ImageUpload(models.Model):
     class Meta:
         db_table = 'images'
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     img = models.ImageField(upload_to="images")  # こちらの通り
 
     def __str__(self):
         return self.title
+    
+class ImageConnectModels(models.Model):
+    user = models.IntegerField()
+    icon = models.IntegerField()
+    is_published = models.IntegerField()
 
+    class Meta:
+        db_table = 'imagesconnnect'
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'icon', 'is_published'], name='unique_constraint')
+        ]
 
 class Post(models.Model):
     images_id = models.ForeignKey("User", on_delete=models.CASCADE)

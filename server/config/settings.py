@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = [
-    '.up.railway.app'
+    'localhost'
+    # '.up.railway.app'
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -106,20 +107,20 @@ DATABASES = {
     #     'PASSWORD': os.environ.get('DB_PASSWORD'),
     #     'OPTIONS': {'ssl': {'ca': os.environ.get('MYSQL_ATTR_SSL_CA')}}
     # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'pengin',
-    #     'USER': 'root',
-    #     'PASSWORD': 'hoge',
-    #     'HOST': 'db',
-    #     'PORT': '3306',
-    #     'OPTIONS': {
-    #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-    #                 'charset': 'utf8mb4'
-    #     },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pengin',
+        'USER': 'root',
+        'PASSWORD': 'hoge',
+        'HOST': 'db',
+        'PORT': '3306',
+        'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4'
+        },
     #     #     'ENGINE': 'django.db.backends.sqlite3',
     #     #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+    }
 }
 
 
@@ -160,7 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -214,7 +215,7 @@ APPEND_SLASH = False
 
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-try:
-    from .settings_local import *
-except:
-    pass
+# try:
+#     from .settings_local import *
+# except:
+#     pass

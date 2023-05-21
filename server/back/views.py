@@ -7,11 +7,12 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import ImageUpload, User, UserPostList, RoomModels, MessageModels
-from .forms import ImageUploadForm, UserForm, LoginForm,RoomForm,MessageForm
+from .models import ImageUpload, User, UserPostList, RoomModels, MessageModels, ImageConnectModels
+from .forms import ImageUploadForm, UserForm, LoginForm,RoomForm,MessageForm, ImageChoiseForm
 import MySQLdb
 import datetime
 from django.contrib.auth import login
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.views.generic import TemplateView  # テンプレートタグ
 
@@ -98,9 +99,7 @@ def loginDataView(request):
                     request.user.is_authenticated == True
                     login(request, p.loginID)
                     return HttpResponseRedirect(reverse('home'))
-
         print("---------------------------------------")
-
         
     return render(request, template_name)
 
@@ -124,7 +123,6 @@ def roomView(request):
     print(form)
     # if request.POST:
     if form.is_valid():
-        print('あああああああああああああ')
         #DBに登録する準備を行う
         thread = form.save(commit=False)
         #threadにログイン中ユーザー情報を追加
@@ -183,7 +181,6 @@ def messageAddView(request):
     print(form.is_valid())
     
     if form.is_valid():
-        print('あああああああああああああ')
         comment = form.save(commit=False)
         # #threadにログイン中ユーザー情報e
         comment.user = request.user
@@ -207,14 +204,16 @@ def messageAddView(request):
 
 def listDetaView(request):
     template_name = "back/list.html"
-    ctx = {}
     sample_users = User.objects.values('id', 'name')
+    img_list = ImageUpload.objects.values('id','title','img')
+    connect = ImageConnectModels.objects.values('id', 'user', 'icon')
+    context = {
+        'users': sample_users,
+        'images': img_list,
+        'connect': connect
+    }
     print(sample_users)
-    ctx["object_list"] = sample_users
-
-    return render(request, template_name, ctx)
-
-
+    return render(request, template_name, context)
 # @csrf_protect
 
 
@@ -236,10 +235,82 @@ def ImgDetaView(request):
 def IconListView(request):
     template_name = 'back/iconlist.html'
     ctx = {}
-    img_path = ImageUpload.objects.values('title', 'img')
-    print(img_path)
+    img_path = ImageUpload.objects.values('id','title','img')
+    
+    person_count = ImageUpload.objects.count()
+    # print(ImageUpload.objects.get(id=1))
+    print('aaaaaaaaaaaa')
+    # print(img_path.values('title'))
     ctx["object_list"] = img_path
+    user_id = request.user.id
+    range(person_count)
+    # for val in range(person_count):
+    print(request.method)
+    if request.method == 'POST':
+        for i in img_path:
+            get_button = i.get('title')
+            save_id = i.get('id')
+            if get_button in request.POST:
+                print(get_button)
+                try:
+                    img_ing = ImageConnectModels.objects.get(user=user_id, icon=save_id, is_published=1)
+                    print("保存済み")
+                    # redirect_url = "/back/login"
+                    # return HttpResponseRedirect(redirect_url)
+                    # return redirect('list')
+                    ImageConnectModels.objects.filter(user=user_id, icon=save_id, is_published=1).delete()
+                except ObjectDoesNotExist:
+                    print("ないよ")
+                    image = ImageConnectModels(user=user_id, icon=save_id, is_published=1)
+                    image.save()
+
+
+            # get_button = i.get('title')
+            # save_id = i.get('id')
+            # if get_button in request.POST:
+            #     print('OK')
+            #     if not ImageConnectModels.objects.get(user=user_id, icon=save_id, is_published=1):
+            #         print('ないよ')
+            #     elif ImageConnectModels.objects.get(user=user_id, icon=save_id, is_published=1):
+            #         print('保存済み')
+            #         # image = ImageConnectModels(user=user_id, icon=save_id, is_published=1)
+            #         # image.save()
+
+        # ---------チェックボックス---------
+        # # print(request.POST.get('パチンコ'))
+        # my_checkbox_value = request.POST.getlist("option")
+        # checkbox_num = len(my_checkbox_value)
+        # # num個目のチェックボックスの処理
+        # for num in range(checkbox_num):
+        #     if my_checkbox_value:
+        #         print('取れたよ')
+        #         image = ImageConnectModels(user=user_id, icon=my_checkbox_value[num], is_published=0)
+        #         image.save()
+        #     else:
+        #         print(my_checkbox_value)
+        #         print('取れなかったよ')
+        # ---------チェックボックス---------
+
     return render(request, template_name, ctx)
+
+def IconDeleteView(request):
+    template_name = 'back/icondelete.html'
+    sample_users = User.objects.values('id', 'name')
+    img_list = ImageUpload.objects.values('id','title','img')
+    connect = ImageConnectModels.objects.values('id', 'user', 'icon')
+    user_id = request.user.id
+    count = ImageConnectModels.objects.count()
+    for val in range(count):
+        # print(val+1)
+        imgIng= ImageConnectModels.objects.values('user').get(id=val+1)
+        values_user = imgIng['user']
+        if user_id==values_user:
+            img = ImageConnectModels.objects.get(id=val)
+            print(type(img))
+            
+
+
+    return render(request, template_name)
 
 
 class UserStatusView(View):

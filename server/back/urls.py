@@ -10,7 +10,6 @@ from django.views import View
 
 app_name = "back"
 urlpatterns = [
-
     # path('signup/', views.signup_view, name='signup'),
     path("login/", login_view, name='login'),
     path('logout/', logout_view, name='logout'),
@@ -20,6 +19,7 @@ urlpatterns = [
     path("image-upload/", ImageUploadView.as_view(), name="image-upload"),
     path("user-status/", UserStatusView.as_view(), name="user-status"),
     path("iconlist/", IconListView, name="iconlist"),
+    path("icondelete/", IconDeleteView, name="icondelete"),
 
     path("home/",views.home,name="home"),
     path("roomlist/",roomListView, name="roomlist"),
