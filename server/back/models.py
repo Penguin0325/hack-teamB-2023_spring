@@ -111,6 +111,15 @@ class ImageConnectModels(models.Model):
             models.UniqueConstraint(fields=['user', 'icon', 'is_published'], name='unique_constraint')
         ]
 
+class NowImageModels(models.Model):
+    class Meta:
+        db_table = 'nowimages'
+    title = models.CharField(max_length=100, unique=True)
+    img = models.ImageField(upload_to="images")  # こちらの通り
+
+    def __str__(self):
+        return self.title
+
 class Post(models.Model):
     images_id = models.ForeignKey("User", on_delete=models.CASCADE)
 

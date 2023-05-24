@@ -5,31 +5,29 @@
     <form method="post">
     {% csrf_token %}
     <link rel="stylesheet" href="{% static 'css/iconlist.css' %}">
-      {% for obj in object_list %}
+      {% for obj in img_path %}
       <div class="check">
-        
-          <h3>{{ obj.title }}</h3>
+        <p>{{message}}</p>
           <a href="">
             <button type="submit" id="{{ obj.id }}" name="{{ obj.title }}" value="{{ obj.id }}">
               <img src="/media_local/{{obj.img}}" 
-                width="100"
+                width="50"
                 height="50"
                 class="border_radius" alt="送信" />
             </button>
           </a>
-        <!-- <input type="checkbox" id="{{ obj.id }}" name="option" value="{{ obj.id }}" />
-        <label for="{{obj.id}}" class="label">
-          <img
-            src="/media_local/{{obj.img}}"
-            width="100"
-            height="50"
-            class="border_radius"
-          />
-        </label> -->
       </div>
-      {% endfor %}
-      <!-- <button type="submit">Submit</button>
-      <p><a href="{% url 'back:list' %}">ホームへ</a></p> -->
-      <!-- <td><a href="{% url 'back:list' %}">登録</a></td> -->
+        <!-- {% for connect in connect_path%}
+          {% if connect.user == obj.%}
+            条件が真の場合のコンテンツ
+          {% else %}
+            条件が偽の場合のコンテンツ
+          {% endif %}
+        {% endfor %}
+      {% endfor %} -->
+      
+        <!-- <button type="submit">Submit</button> -->
+        <p><a href="{% url 'back:list' %}">ホームへ</a></p>
+        <!-- <td><a href="{% url 'back:list' %}">登録</a></td> -->
     </form>
 {% endblock %}
